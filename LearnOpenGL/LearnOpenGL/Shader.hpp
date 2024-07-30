@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cassert>
 
 // Libraries
 #include <glad/glad.h>
@@ -52,22 +53,25 @@ public:
         vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vShaderCode, NULL);
         glCompileShader(vertex);
-        checkCompileErrors(vertex, "VERTEX");
+        checkCompileErrors(vertex, ShaderType::Vertex);
 
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fShaderCode, NULL);
         glCompileShader(fragment);
-        checkCompileErrors(fragment, "FRAGMENT");
+        checkCompileErrors(fragment, ShaderType::Fragment);
         
         ID = glCreateProgram();
         glAttachShader(ID, vertex);
         glAttachShader(ID, fragment);
         glLinkProgram(ID);
-        checkCompileErrors(ID, "PROGRAM");
+        checkCompileErrors(ID, ShaderType::Program);
 
         // 3. delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
+    }
+    ~Shader() {
+        glDeleteProgram(ID);
     }
 
     // activate the shader
@@ -79,26 +83,38 @@ public:
     // utility uniform functions
     void setBool(const std::string& name, bool value) const
     {
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform1i(uniLoc, static_cast<int>(value));
     }
     void setInt(const std::string& name, int value) const
     {
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform1i(uniLoc, value);
     }
     void setFloat(const std::string& name, float value) const
     {
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform1f(uniLoc, value);
     }
 
 private:
 
+    enum ShaderType {
+        Program,
+        Vertex,
+        Fragment,
+    };
+
     // utility function for checking shader compilation/linking errors.
-    void checkCompileErrors(GLuint shader, const std::string& type)
+    void checkCompileErrors(GLuint shader, ShaderType type)
     {
         int success;
         const int infoLogLength = 1024;
         char infoLog[infoLogLength];
-        if (type != "PROGRAM")
+        if (type != ShaderType::Program)
         {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success)

@@ -121,7 +121,6 @@ int main() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(ourShader.ID);
 
     // Terminate GLFW and clear resources
     glfwTerminate();
