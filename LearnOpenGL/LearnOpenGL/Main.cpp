@@ -50,7 +50,7 @@ int main() {
 
 
     // Create shader program
-    Shader ourShader("shader.vert", "shader.frag");
+    Shader ourShader("shaders/shader.vert", "shaders/shader.frag");
 
     // Set up vertex data (and buffer(s)) and configure vertex attributes
     GLfloat vertices[] = {
