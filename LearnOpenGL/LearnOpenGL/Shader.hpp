@@ -7,6 +7,7 @@
 
 // Libraries
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 class Shader
 {
@@ -151,7 +152,7 @@ public:
     {
         auto uniLoc = glGetUniformLocation(ID, name.c_str());
         assert(uniLoc != -1 && "Shader uniform does not exist.");
-        glUniformMatrix4fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
+        glUniformMatrix4fv(uniLoc, 1, GL_FALSE, &mat[0][0]);        // or use glm::value_ptr(model)
     }
 
 private:
