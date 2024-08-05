@@ -104,7 +104,7 @@ int main() {
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    GLuint VBO, VAO;                 // vertex-buffer-object and vertex-array-objects IDs, plus element buffer object
+    GLuint VBO, VAO;                 // vertex-buffer-object and vertex-array-objects IDs
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
