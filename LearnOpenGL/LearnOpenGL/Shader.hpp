@@ -99,6 +99,60 @@ public:
         assert(uniLoc != -1 && "Shader uniform does not exist.");
         glUniform1f(uniLoc, value);
     }
+    void setVec2(const std::string& name, const glm::vec2& value) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform2fv(uniLoc, 1, &value[0]);
+    }
+    void setVec2(const std::string& name, float x, float y) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform2f(uniLoc, x, y);
+    }
+    void setVec3(const std::string& name, const glm::vec3& value) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform3fv(uniLoc, 1, &value[0]);
+    }
+    void setVec3(const std::string& name, float x, float y, float z) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform3f(uniLoc, x, y, z);
+    }
+    void setVec4(const std::string& name, const glm::vec4& value) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform4fv(uniLoc, 1, &value[0]);
+    }
+    void setVec4(const std::string& name, float x, float y, float z, float w) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniform4f(uniLoc, x, y, z, w);
+    }
+    void setMat2(const std::string& name, const glm::mat2& mat) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniformMatrix2fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
+    }
+    void setMat3(const std::string& name, const glm::mat3& mat) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniformMatrix3fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
+    }
+    void setMat4(const std::string& name, const glm::mat4& mat) const
+    {
+        auto uniLoc = glGetUniformLocation(ID, name.c_str());
+        assert(uniLoc != -1 && "Shader uniform does not exist.");
+        glUniformMatrix4fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
+    }
 
 private:
 
