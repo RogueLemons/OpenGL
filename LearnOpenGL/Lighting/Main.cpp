@@ -257,14 +257,16 @@ int main()
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        lightingShader.use();                                               // be sure to activate shader when setting uniforms/drawing objects
-        //lightingShader.setVec3("light.position", lightPos);
-        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        lightingShader.use();                               // be sure to activate shader when setting uniforms/drawing objects
+        lightingShader.setVec3("light.position", lightPos);
         lightingShader.setVec3("viewPos", camera.Position);
         
         lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);          // light properties
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.setFloat("light.constant", 1.0f);
+        lightingShader.setFloat("light.linear", 0.09f);
+        lightingShader.setFloat("light.quadratic", 0.032f);
         
         
         lightingShader.setFloat("material.shininess", 64.0f);               // material properties
@@ -297,17 +299,17 @@ int main()
         }
 
 
-        
-        //lightCubeShader.use();                                              // also draw the lamp object
-        //lightCubeShader.setMat4("projection", projection);
-        //lightCubeShader.setMat4("view", view);
-        //model = glm::mat4(1.0f);
-        //model = glm::translate(model, lightPos);
-        //model = glm::scale(model, glm::vec3(0.2f));                         // a smaller cube
-        //lightCubeShader.setMat4("model", model);
+        // also draw the lamp object
+        lightCubeShader.use();
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f));     // a smaller cube
+        lightCubeShader.setMat4("model", model);
 
-        //glBindVertexArray(lightCubeVAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(lightCubeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
