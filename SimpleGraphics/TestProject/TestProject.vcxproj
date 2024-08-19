@@ -143,9 +143,6 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{feaede74-22e6-4eff-a547-9e988832b4b5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Imaging\Imaging.vcxproj">
-      <Project>{1f3084bb-a867-4874-ab40-afef94ac7aa2}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />

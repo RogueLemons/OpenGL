@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Shader.hpp"
 #include "Camera.hpp"
-#include "Imaging/stb_image.h"
+#include "Core/stb_image.h"
 
 // Libraries
 #include <glad/glad.h>
