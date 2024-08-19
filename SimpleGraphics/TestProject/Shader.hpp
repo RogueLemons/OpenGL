@@ -6,7 +6,7 @@
 #include <cassert>
 
 // Libraries
-#include <glad/glad.h>
+#include "Core/glad/glad.h"
 #include <glm/glm.hpp>
 
 class Shader
