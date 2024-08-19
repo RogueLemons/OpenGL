@@ -144,8 +144,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // build and compile our shader zprogram
-    Shader lightingShader("shaders/colors.vert", "shaders/colors.frag");
-    Shader lightCubeShader("shaders/light_cube.vert", "shaders/light_cube.frag");
+    Shader lightingShader("../shaders/colors.vert", "../shaders/colors.frag");
+    Shader lightCubeShader("../shaders/light_cube.vert", "../shaders/light_cube.frag");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = {
@@ -243,8 +243,8 @@ int main()
     glEnableVertexAttribArray(0);
 
     // LOAD TEXTURES
-    unsigned int diffuseMap = loadTexture("images/container2.png");
-    unsigned int specularMap = loadTexture("images/container2_specular.png");
+    unsigned int diffuseMap = loadTexture("../images/container2.png");
+    unsigned int specularMap = loadTexture("../images/container2_specular.png");
 
     // SHADER CONFIGURATION
     lightingShader.use();
