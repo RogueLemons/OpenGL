@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 // Libraries
 #include <glad/glad.h>
@@ -8,12 +9,12 @@ namespace Charis {
 
 	namespace PrivateGlobal {
 
-		inline GLFWwindow* Window;
+		inline GLFWwindow* Window = nullptr;
 
 		struct Mouse {
-			inline static float X;
-			inline static float Y;
-			inline static float Wheel;
+			inline static float X{};
+			inline static float Y{};
+			inline static float Wheel{};
 		};
 
 
