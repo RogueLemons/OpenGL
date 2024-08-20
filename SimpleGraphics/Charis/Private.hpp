@@ -1,5 +1,5 @@
 #pragma once
-#include <functional>
+#include <array>
 
 // Libraries
 #include <glad/glad.h>
@@ -10,6 +10,7 @@ namespace Charis {
 	namespace PrivateGlobal {
 
 		inline GLFWwindow* Window = nullptr;
+		inline std::array<float, 3> BackgroundRGB{};
 
 		struct Mouse {
 			inline static float X{};
