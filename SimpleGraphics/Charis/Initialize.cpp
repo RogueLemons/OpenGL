@@ -10,7 +10,7 @@
 namespace Charis {
 
     // TODO
-    void processInput(GLFWwindow* window)
+    static void processInput(GLFWwindow* window)
     {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
@@ -24,23 +24,23 @@ namespace Charis {
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
             camera.ProcessKeyboard(RIGHT, deltaTime);*/
     }
-    void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+    static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     {
         // make sure the viewport matches the new window dimensions; note that width and 
         // height will be significantly larger than specified on retina displays.
         glViewport(0, 0, width, height);
     }
-    void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
+    static void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
     {
         PrivateGlobal::Mouse::X = static_cast<float>(xPosIn);
         PrivateGlobal::Mouse::Y = static_cast<float>(yPosIn);
     }
-    void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     {
         PrivateGlobal::Mouse::Wheel = static_cast<float>(yoffset);
     }
 
-	bool Initialize(const std::string& name, unsigned int width, unsigned int height)
+	void Initialize(const std::string& name, unsigned int width, unsigned int height)
 	{
 		// glfw: initialize and configure
 		DynamicAssert(glfwInit() == GLFW_TRUE, "Failed to initialize GLFW.");
@@ -65,7 +65,20 @@ namespace Charis {
         // configure global opengl state
         glEnable(GL_DEPTH_TEST);
 
-		return false;
 	}
+
+    void InitializeLoop()
+    {
+        if (glfwGetKey(Charis::PrivateGlobal::Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(Charis::PrivateGlobal::Window, true);
+
+        glfwSwapBuffers(Charis::PrivateGlobal::Window);
+        glfwPollEvents();
+    }
+
+    bool WindowIsOpen()
+    {
+        return !glfwWindowShouldClose(Charis::PrivateGlobal::Window);
+    }
 
 }
