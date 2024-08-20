@@ -10,9 +10,10 @@ namespace Charis {
 			// Cursor is locked to window and invisible.
 			LockAndHide
 		};
-
+		// Sets how the cursor should be managed by the window.
 		void SetCursorBehavior(CursorBehavior behavior);
 
+		
 	}
 
 }

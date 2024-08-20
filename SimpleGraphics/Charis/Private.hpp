@@ -1,18 +1,19 @@
 #pragma once
 
 // Libraries
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Charis {
 
 	namespace PrivateGlobal {
 
-		GLFWwindow* Window;
+		inline GLFWwindow* Window;
 
 		struct Mouse {
-			static float X;
-			static float Y;
-			static float Wheel;
+			inline static float X;
+			inline static float Y;
+			inline static float Wheel;
 		};
 
 
