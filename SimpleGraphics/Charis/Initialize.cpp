@@ -7,38 +7,38 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+// TODO
+static void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    /*if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboard(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboard(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboard(RIGHT, deltaTime);*/
+}
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
+}
+static void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
+{
+    Charis::PrivateGlobal::Mouse::X = static_cast<float>(xPosIn);
+    Charis::PrivateGlobal::Mouse::Y = static_cast<float>(yPosIn);
+}
+static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    Charis::PrivateGlobal::Mouse::Wheel = static_cast<float>(yoffset);
+}
+
 namespace Charis {
-
-    // TODO
-    static void processInput(GLFWwindow* window)
-    {
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
-
-        /*if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            camera.ProcessKeyboard(FORWARD, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            camera.ProcessKeyboard(BACKWARD, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            camera.ProcessKeyboard(LEFT, deltaTime);
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            camera.ProcessKeyboard(RIGHT, deltaTime);*/
-    }
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-    {
-        // make sure the viewport matches the new window dimensions; note that width and 
-        // height will be significantly larger than specified on retina displays.
-        glViewport(0, 0, width, height);
-    }
-    static void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
-    {
-        PrivateGlobal::Mouse::X = static_cast<float>(xPosIn);
-        PrivateGlobal::Mouse::Y = static_cast<float>(yPosIn);
-    }
-    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-    {
-        PrivateGlobal::Mouse::Wheel = static_cast<float>(yoffset);
-    }
 
 	void Initialize(const std::string& name, unsigned int width, unsigned int height)
 	{
