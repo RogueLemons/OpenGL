@@ -35,6 +35,20 @@ namespace Charis {
 			}
 		}
 
+		void CloseWindow()
+		{
+			glfwSetWindowShouldClose(PrivateGlobal::Window, true);
+		}
+
+		void SetWindowBackground(const std::array<float, 3>& RGB)
+		{
+			PrivateGlobal::BackgroundRGB = RGB;
+		}
+
+	}
+
+	namespace Input {
+
 		Position CursorPosition()
 		{
 			return { PrivateGlobal::Mouse::X, PrivateGlobal::Mouse::Y };
@@ -45,14 +59,14 @@ namespace Charis {
 			return PrivateGlobal::Mouse::Wheel;
 		}
 
-		void CloseWindow()
+		bool KeyState(Key key, Trigger trigger)
 		{
-			glfwSetWindowShouldClose(PrivateGlobal::Window, true);
+			return glfwGetKey(PrivateGlobal::Window, key) == trigger;
 		}
 
-		void SetWindowBackground(const std::array<float, 3>& RGB)
+		bool MouseButtonState(Mouse button, Trigger trigger)
 		{
-			PrivateGlobal::BackgroundRGB = RGB;
+			return glfwGetMouseButton(PrivateGlobal::Window, button) == trigger;
 		}
 
 	}
