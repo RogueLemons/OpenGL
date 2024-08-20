@@ -1,6 +1,7 @@
-#pragma once
-#include "Settings.h"
+#include "Utility.h"
 #include "Private.hpp"
+#include <iostream>
+#include <stdlib.h>
 
 // Libraries
 #include <glad/glad.h>
@@ -8,7 +9,19 @@
 
 namespace Charis {
 
-	namespace Settings {
+	namespace Helper {
+
+		void RuntimeAssert(bool condition, const std::string& errorMessage)
+		{
+			if (!condition) {
+				std::cout << errorMessage << std::endl;
+				abort();
+			}
+		}
+
+	}
+
+	namespace Utility {
 
 		void SetCursorBehavior(CursorBehavior behavior)
 		{
@@ -25,3 +38,4 @@ namespace Charis {
 	}
 
 }
+

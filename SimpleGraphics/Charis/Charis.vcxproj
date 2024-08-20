@@ -135,14 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Helper.hpp" />
     <ClInclude Include="Initialize.h" />
     <ClInclude Include="Private.hpp" />
-    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Initialize.cpp" />
-    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

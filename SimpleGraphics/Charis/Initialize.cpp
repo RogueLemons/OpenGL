@@ -1,5 +1,6 @@
 #include "Initialize.h"
-#include "Helper.hpp"
+#include "Utility.h"
+using namespace Charis::Helper;
 #include "Private.hpp"
 #include <iostream>
 
@@ -43,7 +44,7 @@ namespace Charis {
 	void Initialize(const std::string& name, unsigned int width, unsigned int height)
 	{
 		// glfw: initialize and configure
-		DynamicAssert(glfwInit() == GLFW_TRUE, "Failed to initialize GLFW.");
+		RuntimeAssert(glfwInit() == GLFW_TRUE, "Failed to initialize GLFW.");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -53,14 +54,14 @@ namespace Charis {
 
 		// glfw window creation
 		PrivateGlobal::Window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
-		DynamicAssert(PrivateGlobal::Window != NULL, "Failed to create GLFW window.");
+		RuntimeAssert(PrivateGlobal::Window != NULL, "Failed to create GLFW window.");
         glfwMakeContextCurrent(PrivateGlobal::Window);
         glfwSetFramebufferSizeCallback(PrivateGlobal::Window, framebuffer_size_callback);
         glfwSetCursorPosCallback(PrivateGlobal::Window, mouse_callback);
         glfwSetScrollCallback(PrivateGlobal::Window, scroll_callback);
 		
         // glad: load all OpenGL function pointers
-        DynamicAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD.");
+        RuntimeAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD.");
 
         // configure global opengl state
         glEnable(GL_DEPTH_TEST);
