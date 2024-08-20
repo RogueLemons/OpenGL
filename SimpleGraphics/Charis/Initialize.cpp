@@ -2,6 +2,7 @@
 #include "Utility.h"
 using namespace Charis::Helper;
 #include "Private.hpp"
+using namespace Charis::PrivateGlobal;
 #include <iostream>
 
 // Libraries
@@ -41,9 +42,9 @@ static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 namespace Charis {
 
-	void Initialize(const std::string& name, unsigned int width, unsigned int height)
+	void Initialize(unsigned int width, unsigned int height, const std::string& name)
 	{
-		// glfw: initialize and configure
+        // glfw: initialize and configure
 		RuntimeAssert(glfwInit() == GLFW_TRUE, "Failed to initialize GLFW.");
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -53,12 +54,12 @@ namespace Charis {
 #endif
 
 		// glfw window creation
-		PrivateGlobal::Window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
-		RuntimeAssert(PrivateGlobal::Window != NULL, "Failed to create GLFW window.");
-        glfwMakeContextCurrent(PrivateGlobal::Window);
-        glfwSetFramebufferSizeCallback(PrivateGlobal::Window, framebuffer_size_callback);
-        glfwSetCursorPosCallback(PrivateGlobal::Window, mouse_callback);
-        glfwSetScrollCallback(PrivateGlobal::Window, scroll_callback);
+		Window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
+		RuntimeAssert(Window != NULL, "Failed to create GLFW window.");
+        glfwMakeContextCurrent(Window);
+        glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
+        glfwSetCursorPosCallback(Window, mouse_callback);
+        glfwSetScrollCallback(Window, scroll_callback);
 		
         // glad: load all OpenGL function pointers
         RuntimeAssert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD.");
@@ -70,16 +71,25 @@ namespace Charis {
 
     void InitializeLoop()
     {
-        if (glfwGetKey(Charis::PrivateGlobal::Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(Charis::PrivateGlobal::Window, true);
+        if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(Window, true);
 
-        glfwSwapBuffers(Charis::PrivateGlobal::Window);
+        glClearColor(BackgroundRGB[0], BackgroundRGB[1], BackgroundRGB[2], 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        glfwSwapBuffers(Window);
         glfwPollEvents();
     }
 
     bool WindowIsOpen()
     {
-        return !glfwWindowShouldClose(Charis::PrivateGlobal::Window);
+        return !glfwWindowShouldClose(Window);
+    }
+
+    void CleanUp()
+    {
+        // glfw: terminate, clearing all previously allocated GLFW resources
+        glfwTerminate();
     }
 
 }

@@ -35,6 +35,16 @@ namespace Charis {
 			}
 		}
 
+		void CloseWindow()
+		{
+			glfwSetWindowShouldClose(PrivateGlobal::Window, true);
+		}
+
+		void SetWindowBackground(const std::array<float, 3>& RGB)
+		{
+			PrivateGlobal::BackgroundRGB = RGB;
+		}
+
 	}
 
 }
