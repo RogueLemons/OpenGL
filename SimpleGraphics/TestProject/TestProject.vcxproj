@@ -145,9 +145,6 @@
     <ProjectReference Include="..\Charis\Charis.vcxproj">
       <Project>{9d3a12d4-30d0-4a9a-8b14-9def0ad795b4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{feaede74-22e6-4eff-a547-9e988832b4b5}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
