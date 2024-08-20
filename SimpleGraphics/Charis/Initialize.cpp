@@ -71,10 +71,6 @@ namespace Charis {
 
     void InitializeLoop()
     {
-        if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(Window, true);
-        
-
         glClearColor(BackgroundRGB[0], BackgroundRGB[1], BackgroundRGB[2], 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
