@@ -37,7 +37,7 @@ static void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
 }
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    Charis::PrivateGlobal::Mouse::Wheel = static_cast<float>(yoffset);
+    Charis::PrivateGlobal::Mouse::Wheel += static_cast<float>(yoffset);
 }
 
 namespace Charis {
