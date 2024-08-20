@@ -10,7 +10,7 @@
 
 namespace Charis {
 
-	void DynamicAssert(bool condition, const std::string& errorMessage) {
+	static void DynamicAssert(bool condition, const std::string& errorMessage) {
 		if (!condition) {
 			std::cout << errorMessage << std::endl;
 			abort();
