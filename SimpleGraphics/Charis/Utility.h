@@ -30,6 +30,15 @@ namespace Charis {
 		// Sets how the cursor should be managed by the window.
 		void SetCursorBehavior(CursorBehavior behavior);
 
+		struct Position {
+			float X{};
+			float Y{};
+		};
+		// Gets the X and Y coordinates of the cursor.
+		Position CursorPosition();
+		// Gets the position of the mouse wheel.
+		float MouseWheel();
+
 		// Closes the window.
 		void CloseWindow();
 

@@ -35,6 +35,16 @@ namespace Charis {
 			}
 		}
 
+		Position CursorPosition()
+		{
+			return { PrivateGlobal::Mouse::X, PrivateGlobal::Mouse::Y };
+		}
+
+		float MouseWheel()
+		{
+			return PrivateGlobal::Mouse::Wheel;
+		}
+
 		void CloseWindow()
 		{
 			glfwSetWindowShouldClose(PrivateGlobal::Window, true);
