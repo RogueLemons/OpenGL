@@ -9,10 +9,10 @@ int main()
 
     while (Charis::WindowIsOpen()) {
         Charis::InitializeLoop();
-        if (Charis::Input::KeyState(Charis::Input::Key::Escape, Charis::Input::Pressed))
+        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
             Charis::Utility::CloseWindow();
         
-        if (Charis::Input::KeyState(Charis::Input::Key::W, Charis::Input::Pressed)) {
+        if (Charis::Input::KeyState(Charis::Input::W, Charis::Input::Pressed)) {
             std::cout << "W" << std::endl;
         }
     }
