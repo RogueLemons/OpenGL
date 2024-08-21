@@ -136,11 +136,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Initialize.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Private.hpp" />
+    <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Initialize.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
