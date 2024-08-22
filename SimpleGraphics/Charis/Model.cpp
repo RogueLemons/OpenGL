@@ -1,6 +1,6 @@
 #include "Model.h"
 
-// libraries
+// Libraries
 #include <glad/glad.h>
 
 namespace Charis {

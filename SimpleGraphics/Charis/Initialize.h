@@ -4,7 +4,7 @@
 namespace Charis {
 
 	/// <summary>
-	/// Performs all background work necessary to start using Charis.
+	/// Performs all background work necessary to start using Charis. Don't forget to call the CleanUp function before closing the program.
 	/// </summary>
 	/// <param name="width">Width of window in pixels.</param>
 	/// <param name="height">Height of window in pixels.</param>
