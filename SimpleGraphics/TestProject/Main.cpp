@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
-
+#include "Charis/Shader.h"
 
 int main()
 {
