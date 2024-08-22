@@ -21,7 +21,7 @@ namespace Charis {
 		unsigned int mVBO;
 		
 		bool mUsingIBO;
-		unsigned int mNnumberOfIndices;
+		unsigned int mNumberOfIndices;
 		unsigned int mIBO;
 	};
 
