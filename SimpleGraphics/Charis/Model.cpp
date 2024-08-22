@@ -58,8 +58,8 @@ namespace Charis {
 	Model::Model(const float* vertices, unsigned int numberOfVertices, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& attributeFloatSizes)
 	{
 		Helper::RuntimeAssert(!attributeFloatSizes.empty(), "Must provide attribute float sizes.");
-		Helper::RuntimeAssert(numberOfVertices >= 3, "Must provide at least 3 vertices to model.");
-		Helper::RuntimeAssert(numberOfVertices % 3 == 0, "Number of vertices must be multiple of 3.");
+		Helper::RuntimeAssert(numberOfIndices >= 3, "Must provide at least 3 vertices to model.");
+		Helper::RuntimeAssert(numberOfIndices % 3 == 0, "Number of vertices must be multiple of 3.");
 
 		// Set attributes and vertex buffers
 		auto buffers = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
