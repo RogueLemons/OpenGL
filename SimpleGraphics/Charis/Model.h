@@ -16,13 +16,13 @@ namespace Charis {
 		friend class Shader;
 
 	private:
-		unsigned int mVAO;
-		unsigned int mNumberOfVertices;
-		unsigned int mVBO;
+		unsigned int m_VAO;
+		unsigned int m_NumberOfVertices;
+		unsigned int m_VBO;
 		
-		bool mUsingIBO;
-		unsigned int mNumberOfIndices;
-		unsigned int mIBO;
+		bool m_UsingIBO;
+		unsigned int m_NumberOfIndices;
+		unsigned int m_IBO;
 	};
 
 	template<class V>

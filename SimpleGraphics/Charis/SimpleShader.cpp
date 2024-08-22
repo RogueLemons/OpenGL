@@ -95,11 +95,11 @@ namespace Charis {
         glCompileShader(fragment);
         CheckCompileErrors(fragment, ShaderType::Fragment);
 
-        mID = glCreateProgram();
-        glAttachShader(mID, vertex);
-        glAttachShader(mID, fragment);
-        glLinkProgram(mID);
-        CheckCompileErrors(mID, ShaderType::Program);
+        m_ID = glCreateProgram();
+        glAttachShader(m_ID, vertex);
+        glAttachShader(m_ID, fragment);
+        glLinkProgram(m_ID);
+        CheckCompileErrors(m_ID, ShaderType::Program);
 
         // 3. delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
@@ -108,21 +108,21 @@ namespace Charis {
 
 	SimpleShader::~SimpleShader()
 	{
-		glDeleteProgram(mID);
+		glDeleteProgram(m_ID);
 	}
 
     void SimpleShader::Draw(const Model& model) const
     {
-        glUseProgram(mID);
-        glBindBuffer(GL_ARRAY_BUFFER, model.mVBO);
-        glBindVertexArray(model.mVAO);
+        glUseProgram(m_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, model.m_VBO);
+        glBindVertexArray(model.m_VAO);
 
-        if (model.mUsingIBO) {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.mIBO);
-            glDrawElements(GL_TRIANGLES, model.mNumberOfIndices, GL_UNSIGNED_INT, 0);
+        if (model.m_UsingIBO) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.m_IBO);
+            glDrawElements(GL_TRIANGLES, model.m_NumberOfIndices, GL_UNSIGNED_INT, 0);
         }
         else {
-            glDrawArrays(GL_TRIANGLES, 0, model.mNumberOfVertices);
+            glDrawArrays(GL_TRIANGLES, 0, model.m_NumberOfVertices);
         }
     }
 
@@ -135,21 +135,21 @@ namespace Charis {
 
     void SimpleShader::SetBool(const std::string& name, bool value) const
     {
-        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, static_cast<int>(value));
     }
 
     void SimpleShader::SetInt(const std::string& name, int value) const
     {
-        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, value);
     }
 
     void SimpleShader::SetFloat(const std::string& name, float value) const
     {
-        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1f(uniLoc, value);
     }

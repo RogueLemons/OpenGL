@@ -34,7 +34,7 @@ namespace Charis {
 		void SetFloat(const std::string& name, float value) const;
 
 	protected:
-		unsigned int mID;
+		unsigned int m_ID;
 	};
 
 }

@@ -5,15 +5,15 @@
 // Libraries
 #include <glad/glad.h>
 
-struct Buffers { unsigned int VAO; unsigned int VBO; unsigned int numberOfVertices; };
-static Buffers SetAttributesAndVertices(const float* vertices, unsigned int numberOfVertices, const std::vector<unsigned int>& attributeFloatSizes) 
+struct VertexInfo { unsigned int VAO; unsigned int VBO; unsigned int numberOfVertices; };
+static VertexInfo SetAttributesAndVertices(const float* vertices, unsigned int numberOfVertices, const std::vector<unsigned int>& attributeFloatSizes) 
 {
-	Buffers buffers{};
-	buffers.numberOfVertices = numberOfVertices;
+	VertexInfo vertInfo{};
+	vertInfo.numberOfVertices = numberOfVertices;
 
 	// Set up vertex attributes
-	glGenVertexArrays(1, &buffers.VAO);
-	glBindVertexArray(buffers.VAO);
+	glGenVertexArrays(1, &vertInfo.VAO);
+	glBindVertexArray(vertInfo.VAO);
 	const auto stride = sizeof(float) * std::reduce(attributeFloatSizes.begin(), attributeFloatSizes.end());
 	int offset = 0;
 	int attribute = 0;
@@ -25,11 +25,11 @@ static Buffers SetAttributesAndVertices(const float* vertices, unsigned int numb
 	}
 
 	//Set up vertex buffer
-	glGenBuffers(1, &buffers.VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers.VBO);
+	glGenBuffers(1, &vertInfo.VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, vertInfo.VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numberOfVertices, vertices, GL_STATIC_DRAW);
 
-	return buffers;
+	return vertInfo;
 }
 
 namespace Charis {
@@ -41,15 +41,15 @@ namespace Charis {
 		Helper::RuntimeAssert(numberOfVertices % 3 == 0, "Number of vertices must be multiple of 3.");
 
 		// Set attributes and vertex buffers
-		auto buffers = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
-		mVAO = buffers.VAO;
-		mNumberOfVertices = buffers.numberOfVertices;
-		mVBO = buffers.VBO;
+		auto vertInfo = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
+		m_VAO = vertInfo.VAO;
+		m_NumberOfVertices = vertInfo.numberOfVertices;
+		m_VBO = vertInfo.VBO;
 
 		// Set up index/element buffer
-		mUsingIBO = false;
-		mNumberOfIndices = 0;
-		mIBO = -1;
+		m_UsingIBO = false;
+		m_NumberOfIndices = 0;
+		m_IBO = -1;
 	}
 	Model::Model(const std::vector<float>& vertices, const std::vector<unsigned int>& attributeFloatSizes) 
 		: Model(vertices.data(), vertices.size(), attributeFloatSizes)
@@ -62,16 +62,16 @@ namespace Charis {
 		Helper::RuntimeAssert(numberOfIndices % 3 == 0, "Number of vertices must be multiple of 3.");
 
 		// Set attributes and vertex buffers
-		auto buffers = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
-		mVAO = buffers.VAO;
-		mNumberOfVertices = buffers.numberOfVertices;
-		mVBO = buffers.VBO;
+		auto vertInfo = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
+		m_VAO = vertInfo.VAO;
+		m_NumberOfVertices = vertInfo.numberOfVertices;
+		m_VBO = vertInfo.VBO;
 
 		// Set up index/element buffer
-		mUsingIBO = true;
-		mNumberOfIndices = numberOfIndices;
-		glGenBuffers(1, &mIBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+		m_UsingIBO = true;
+		m_NumberOfIndices = numberOfIndices;
+		glGenBuffers(1, &m_IBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * numberOfIndices, indices, GL_STATIC_DRAW);
 
 	}
@@ -82,11 +82,11 @@ namespace Charis {
 
 	Model::~Model()
 	{
-		glDeleteVertexArrays(1, &mVAO);
-		glDeleteBuffers(1, &mVBO);
+		glDeleteVertexArrays(1, &m_VAO);
+		glDeleteBuffers(1, &m_VBO);
 
-		if (mUsingIBO) 
-			glDeleteBuffers(1, &mIBO);
+		if (m_UsingIBO) 
+			glDeleteBuffers(1, &m_IBO);
 	}
 
 	template<class V>
