@@ -42,7 +42,7 @@ namespace Charis {
 
 	SimpleShader::SimpleShader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType)
 	{
-        // 1. retrieve the vertex/fragment source code from filePath
+        // 1. retrieve the vertex/fragment source code
         std::string vertexCode;
         std::string fragmentCode;
 
@@ -51,11 +51,13 @@ namespace Charis {
 			fragmentCode = fragmentShader;
 		}
 		else if (inputType == Filepath) {
+            // retrieve the vertex/fragment source code from filePath
             std::ifstream vShaderFile;
             std::ifstream fShaderFile;
             // ensure ifstream objects can throw exceptions:
             vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
             try
             {
                 // open files
@@ -93,11 +95,11 @@ namespace Charis {
         glCompileShader(fragment);
         CheckCompileErrors(fragment, ShaderType::Fragment);
 
-        ID = glCreateProgram();
-        glAttachShader(ID, vertex);
-        glAttachShader(ID, fragment);
-        glLinkProgram(ID);
-        CheckCompileErrors(ID, ShaderType::Program);
+        mID = glCreateProgram();
+        glAttachShader(mID, vertex);
+        glAttachShader(mID, fragment);
+        glLinkProgram(mID);
+        CheckCompileErrors(mID, ShaderType::Program);
 
         // 3. delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
@@ -106,23 +108,50 @@ namespace Charis {
 
 	SimpleShader::~SimpleShader()
 	{
-		glDeleteProgram(ID);
+		glDeleteProgram(mID);
 	}
 
-    void SimpleShader::Draw(const Model& model)
+    void SimpleShader::Draw(const Model& model) const
     {
-        glUseProgram(ID);
-        glBindBuffer(GL_ARRAY_BUFFER, model.VBO);
-        glBindVertexArray(model.VAO);
+        glUseProgram(mID);
+        glBindBuffer(GL_ARRAY_BUFFER, model.mVBO);
+        glBindVertexArray(model.mVAO);
 
-        glDrawArrays(GL_TRIANGLES, 0, model.numberOfVertices);
+        if (model.mUsingIBO) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.mIBO);
+            glDrawElements(GL_TRIANGLES, model.mNnumberOfIndices, GL_UNSIGNED_INT, 0);
+        }
+        else {
+            glDrawArrays(GL_TRIANGLES, 0, model.mNumberOfVertices);
+        }
     }
 
-    void SimpleShader::Draw(const std::vector<Model>& models)
+    void SimpleShader::Draw(const std::vector<Model>& models) const
     {
         for (const auto& model : models) {
             Draw(model);
         }
+    }
+
+    void SimpleShader::setBool(const std::string& name, bool value) const
+    {
+        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        glUniform1i(uniLoc, static_cast<int>(value));
+    }
+
+    void SimpleShader::setInt(const std::string& name, int value) const
+    {
+        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        glUniform1i(uniLoc, value);
+    }
+
+    void SimpleShader::setFloat(const std::string& name, float value) const
+    {
+        auto uniLoc = glGetUniformLocation(mID, name.c_str());
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        glUniform1f(uniLoc, value);
     }
 
 }

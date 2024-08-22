@@ -16,14 +16,17 @@ namespace Charis {
 			InCode
 		};
 		SimpleShader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType = Filepath);
-		// SimpleShader(const char* vertexShader, const char* fragmentShader, InputType = Filepath);
 		~SimpleShader();
 
-		void Draw(const Model& model);
-		void Draw(const std::vector<Model>& models);
+		void Draw(const Model& model) const;
+		void Draw(const std::vector<Model>& models) const;
+
+		void setBool(const std::string& name, bool value) const;
+		void setInt(const std::string& name, int value) const;
+		void setFloat(const std::string& name, float value) const;
 
 	private:
-		unsigned int ID;
+		unsigned int mID;
 	};
 
 }
