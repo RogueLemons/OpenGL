@@ -69,10 +69,10 @@ namespace Charis {
 
 		// Set up index/element buffer
 		mUsingIBO = true;
+		mNumberOfIndices = numberOfIndices;
 		glGenBuffers(1, &mIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * numberOfIndices, indices, GL_STATIC_DRAW);
-		mNumberOfIndices = numberOfIndices;
 
 	}
 
