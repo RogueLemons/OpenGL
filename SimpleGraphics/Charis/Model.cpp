@@ -95,20 +95,4 @@ namespace Charis {
 			glDeleteBuffers(1, &m_IBO);
 	}
 
-	/*template<class V>
-	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex) 
-	{
-		const auto floatsPerVertex = sum(floatsPerAttributePerVertex);
-		Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-		return Model(vertices.data(), vertices.size(), floatsPerAttributePerVertex);
-	}
-
-	template<class V>
-	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-	{
-		const auto floatsPerVertex = sum(floatsPerAttributePerVertex);
-		Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-		return Model(vertices.data(), vertices.size(), indices.data(), indices.size(), floatsPerAttributePerVertex);
-	}*/
-
 }
