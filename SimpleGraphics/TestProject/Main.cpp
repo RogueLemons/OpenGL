@@ -7,11 +7,6 @@
 #include "Charis/Model.h"
 #include "Charis/Shader.h"
 
-struct Vertex {
-    float x{};
-    float y{};
-    float z{};
-};
 
 int main()
 {
