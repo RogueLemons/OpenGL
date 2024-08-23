@@ -1,7 +1,10 @@
 #pragma once
 #include <vector>
+#include <array>
 
 namespace Charis {
+
+	using TriangleIndices = std::array<unsigned int, 3>;
 
 	class Model
 	{
@@ -9,7 +12,7 @@ namespace Charis {
 		Model(const float* vertexAttributes, unsigned int numberOfVertices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		Model(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		Model(const float* vertexAttributes, unsigned int numberOfVertices, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
-		Model(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
+		Model(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		~Model();
 
 		friend class SimpleShader;
