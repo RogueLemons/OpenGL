@@ -56,11 +56,11 @@ namespace Charis {
 
     void InitializeLoop()
     {
+        glfwPollEvents();
+        glfwSwapBuffers(Window);
+        
         glClearColor(BackgroundRGB[0], BackgroundRGB[1], BackgroundRGB[2], 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        glfwSwapBuffers(Window);
-        glfwPollEvents();
     }
 
     bool WindowIsOpen()

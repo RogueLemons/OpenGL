@@ -114,8 +114,8 @@ namespace Charis {
     void SimpleShader::Draw(const Model& model) const
     {
         glUseProgram(m_ID);
-        glBindBuffer(GL_ARRAY_BUFFER, model.m_VBO);
         glBindVertexArray(model.m_VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, model.m_VBO);
 
         if (model.m_UsingIBO) {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.m_IBO);
