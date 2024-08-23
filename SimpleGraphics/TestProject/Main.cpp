@@ -13,7 +13,7 @@ struct Vertex {
     float z{};
 };
 
-Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     unsigned int floatsPerVertex = 0;
     for (const auto floatsInAttribute : floatsPerAttributePerVertex) {
