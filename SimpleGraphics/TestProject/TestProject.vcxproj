@@ -148,7 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\colors.frag" />
