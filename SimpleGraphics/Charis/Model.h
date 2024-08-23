@@ -6,10 +6,10 @@ namespace Charis {
 	class Model
 	{
 	public:
-		Model(const float* vertices, unsigned int numberOfVertices, const std::vector<unsigned int>& floatsPerAttribute);
-		Model(const std::vector<float>& vertices, const std::vector<unsigned int>& floatsPerAttribute);
-		Model(const float* vertices, unsigned int numberOfVertices, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& floatsPerAttribute);
-		Model(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttribute);
+		Model(const float* vertexAttributes, unsigned int numberOfVertices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
+		Model(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex);
+		Model(const float* vertexAttributes, unsigned int numberOfVertices, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
+		Model(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		~Model();
 
 		friend class SimpleShader;
@@ -26,8 +26,8 @@ namespace Charis {
 	};
 
 	template<class V>
-	static Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttribute);
+	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 	template<class V>
-	static Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttribute);
+	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 }
 
