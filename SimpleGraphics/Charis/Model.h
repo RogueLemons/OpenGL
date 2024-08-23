@@ -25,9 +25,9 @@ namespace Charis {
 		unsigned int m_IBO;
 	};
 
-	template<class V>
+	/*template<class V>
 	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 	template<class V>
-	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex);
+	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& floatsPerAttributePerVertex);*/
 }
 
