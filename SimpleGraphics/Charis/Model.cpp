@@ -14,11 +14,18 @@ static VertexInfo SetAttributesAndVertices(const float* vertexAttributes, unsign
 {
 	VertexInfo vertInfo{};
 	vertInfo.numberOfVertices = numberOfVertices;
+	const auto stride = sizeof(float) * sum(floatsPerAttributePerVertex);
 
-	// Set up vertex attributes
+	// Create and bind vertex attribute object
 	glGenVertexArrays(1, &vertInfo.VAO);
 	glBindVertexArray(vertInfo.VAO);
-	const auto stride = sizeof(float) * sum(floatsPerAttributePerVertex);
+	
+	//Create and set vertex buffer object
+	glGenBuffers(1, &vertInfo.VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, vertInfo.VBO);
+	glBufferData(GL_ARRAY_BUFFER, stride * numberOfVertices, vertexAttributes, GL_STATIC_DRAW);
+	
+	// Set vertex attributes
 	int offset = 0;
 	int attribute = 0;
 	for (auto floatsPerAttribute : floatsPerAttributePerVertex) {
@@ -27,11 +34,6 @@ static VertexInfo SetAttributesAndVertices(const float* vertexAttributes, unsign
 		offset += floatsPerAttribute;
 		attribute++;
 	}
-
-	//Set up vertex buffer
-	glGenBuffers(1, &vertInfo.VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, vertInfo.VBO);
-	glBufferData(GL_ARRAY_BUFFER, stride * numberOfVertices, vertexAttributes, GL_STATIC_DRAW);
 
 	return vertInfo;
 }
