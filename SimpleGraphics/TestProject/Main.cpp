@@ -7,17 +7,33 @@
 #include "Charis/Model.h"
 #include "Charis/Shader.h"
 
+struct Vertex {
+    float x{};
+    float y{};
+    float z{};
+};
+
+Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+{
+    unsigned int floatsPerVertex = 0;
+    for (const auto floatsInAttribute : floatsPerAttributePerVertex) {
+        floatsPerVertex += floatsInAttribute;
+    };
+    Charis::Helper::RuntimeAssert(sizeof(Vertex) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
+    return Charis::Model((const float*)vertices.data(), vertices.size(), floatsPerAttributePerVertex);
+}
 
 int main()
 {
     Charis::Initialize();
 
-    const std::vector<float> vertices = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+    const std::vector<Vertex> vertices = {
+        { -0.5f, -0.5f, 0.0f },
+        {  0.5f, -0.5f, 0.0f },
+        {  0.0f,  0.5f, 0.0f }
     };
-    const auto triangle = Charis::Model(vertices, {{ 0, 1, 2 }}, { 3 });
+    // const auto triangle = Charis::Model((const float*)vertices.data(), vertices.size(), { 3 });
+    const auto triangle = CreateModelFromStructs(vertices, { 3 });
 
     const char* vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"
