@@ -61,7 +61,7 @@ namespace Charis {
 		Helper::RuntimeAssert(numberOfIndices >= 3, "Must provide at least 3 vertices to model.");
 		Helper::RuntimeAssert(numberOfIndices % 3 == 0, "Number of vertices must be multiple of 3.");
 
-		// Set attributes and vertex buffers
+		// Set attributes and vertex buffer
 		auto vertInfo = SetAttributesAndVertices(vertices, numberOfVertices, attributeFloatSizes);
 		m_VAO = vertInfo.VAO;
 		m_NumberOfVertices = vertInfo.numberOfVertices;
@@ -92,13 +92,17 @@ namespace Charis {
 	template<class V>
 	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& attributeFloatSizes) 
 	{
-		return Model();
+		const auto floatsPerVertex = std::reduce(attributeFloatSizes.begin(), attributeFloatSizes.end());
+		Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Simple vertex struct size must match size of attributes.");
+		return Model(vertices.data(), vertices.size(), attributeFloatSizes);
 	}
 
 	template<class V>
-	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& attributeFloatSizes, const std::vector<unsigned int>& indices)
+	Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& indices, const std::vector<unsigned int>& attributeFloatSizes)
 	{
-		return Model();
+		const auto floatsPerVertex = std::reduce(attributeFloatSizes.begin(), attributeFloatSizes.end());
+		Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Simple vertex struct size must match size of attributes.");
+		return Model(vertices.data(), vertices.size(), indices.data(), indices.size(), attributeFloatSizes);
 	}
 
 }
