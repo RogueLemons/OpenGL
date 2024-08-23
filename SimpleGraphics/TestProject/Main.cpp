@@ -17,7 +17,7 @@ int main()
          0.5f, -0.5f, 0.0f,
          0.0f,  0.5f, 0.0f
     };
-    const auto triangle = Charis::Model(vertices, { 3 });
+    const auto triangle = Charis::Model(vertices, {{ 0, 1, 2 }}, { 3 });
 
     const char* vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"
