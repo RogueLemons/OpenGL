@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <functional>
 
 // Charis
 #include "Charis/Initialize.h"
@@ -23,16 +24,21 @@ static Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices,
     return Charis::Model((const float*)vertices.data(), vertices.size(), floatsPerAttributePerVertex);
 }
 
+static void RunFrame(const std::function<void()>& frameFunction) {
+    Charis::StartFrame();
+    frameFunction();
+    Charis::EndFrame();
+}
+
 int main()
 {
-    Charis::Initialize();
+    Charis::Initialize(800, 600, "Hello Triangle!");
 
     const std::vector<Vertex> vertices = {
         { -0.5f, -0.5f, 0.0f },
         {  0.5f, -0.5f, 0.0f },
         {  0.0f,  0.5f, 0.0f }
     };
-    // const auto triangle = Charis::Model((const float*)vertices.data(), vertices.size(), { 3 });
     const auto triangle = CreateModelFromStructs(vertices, { 3 });
 
     const char* vertexShaderSource = "#version 330 core\n"
@@ -50,18 +56,14 @@ int main()
     const auto shader = Charis::Shader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
 
 
-    while (Charis::WindowIsOpen()) {
-        Charis::StartFrame();
-        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
-            Charis::Utility::CloseWindow();
+    while (Charis::WindowIsOpen()) { RunFrame([&]() {
 
-        shader.Draw(triangle);
-        
-        if (Charis::Input::KeyState(Charis::Input::W, Charis::Input::Pressed)) {
-            std::cout << "W" << std::endl;
-        }
-        Charis::EndFrame();
-    }
+            if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
+                Charis::Utility::CloseWindow();
+
+            shader.Draw(triangle);
+
+    }); }
 
     Charis::CleanUp();
    
