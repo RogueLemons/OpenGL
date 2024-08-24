@@ -21,7 +21,7 @@ static Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices,
         floatsPerVertex += floatsInAttribute;
     };
     Charis::Helper::RuntimeAssert(sizeof(Vertex) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model((const float*)vertices.data(), vertices.size(), floatsPerAttributePerVertex);
+    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), vertices.size(), floatsPerAttributePerVertex);
 }
 
 static void RunFrame(const std::function<void()>& frameFunction) {
