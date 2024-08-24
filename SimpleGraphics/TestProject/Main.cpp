@@ -51,7 +51,7 @@ int main()
 
 
     while (Charis::WindowIsOpen()) {
-        Charis::InitializeLoop();
+        Charis::StartFrame();
         if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
             Charis::Utility::CloseWindow();
 
@@ -60,6 +60,7 @@ int main()
         if (Charis::Input::KeyState(Charis::Input::W, Charis::Input::Pressed)) {
             std::cout << "W" << std::endl;
         }
+        Charis::EndFrame();
     }
 
     Charis::CleanUp();
