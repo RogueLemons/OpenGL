@@ -45,6 +45,11 @@ namespace Charis {
 			PrivateGlobal::BackgroundRGB = RGB;
 		}
 
+		float GetTime()
+		{
+			return static_cast<float>(glfwGetTime());
+		}
+
 	}
 
 	namespace Input {

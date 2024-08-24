@@ -36,6 +36,9 @@ namespace Charis {
 		/// <summary>Sets the background color of the window.</summary>
 		/// <param name="RGB">RGB color values ranging from 0.0 to 1.0.</param>
 		void SetWindowBackground(const std::array<float, 3>& RGB);
+
+		/// <summary>Returns the time in seconds since initialization.</summary>
+		float GetTime();
 	}
 
 	namespace Input {
