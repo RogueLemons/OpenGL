@@ -17,11 +17,11 @@ struct Vertex {
 static Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     unsigned int floatsPerVertex = 0;
-    for (const auto floatsInAttribute : floatsPerAttributePerVertex) {
+    for (auto floatsInAttribute : floatsPerAttributePerVertex) {
         floatsPerVertex += floatsInAttribute;
     };
     Charis::Helper::RuntimeAssert(sizeof(Vertex) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), vertices.size(), floatsPerAttributePerVertex);
+    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), floatsPerVertex * vertices.size(), floatsPerAttributePerVertex);
 }
 
 static void RunFrame(const std::function<void()>& frameFunction) {
