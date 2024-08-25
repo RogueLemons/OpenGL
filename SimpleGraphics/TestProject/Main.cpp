@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
+#include <numeric>
 
 // Charis
 #include "Charis/Initialize.h"
@@ -8,21 +9,8 @@
 #include "Charis/Model.h"
 #include "Charis/Shader.h"
 
-struct Vertex {
-    float x{};
-    float y{};
-    float z{};
-};
-
-static Charis::Model CreateModelFromStructs(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-{
-    unsigned int floatsPerVertex = 0;
-    for (auto floatsInAttribute : floatsPerAttributePerVertex) {
-        floatsPerVertex += floatsInAttribute;
-    };
-    Charis::Helper::RuntimeAssert(sizeof(Vertex) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), floatsPerVertex * vertices.size(), floatsPerAttributePerVertex);
-}
+// Libraries
+#include <glm/glm.hpp>
 
 static void RunFrame(const std::function<void()>& frameFunction) {
     Charis::StartFrame();
@@ -30,8 +18,41 @@ static void RunFrame(const std::function<void()>& frameFunction) {
     Charis::EndFrame();
 }
 
-int main()
+struct Vertex {
+    float x{};
+    float y{};
+    float z{};
+};
+
+struct ColorVertex {
+    glm::vec3 pos;
+    glm::vec3 rgb;
+};
+
+template<class V>
+static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
+    unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
+    Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
+    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), floatsPerVertex * vertices.size(), floatsPerAttributePerVertex);
+}
+
+template<class V>
+static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+{
+    static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
+    auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
+    auto indexCount = 3 * indices.size();
+
+    unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
+    Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
+    auto vertexArray = reinterpret_cast<const float*>(vertices.data());
+    auto vertexCount = floatsPerVertex * vertices.size();
+
+    return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
+}
+
+static void HelloTriangle() {
     Charis::Initialize(800, 600, "Hello Triangle!");
 
     const std::vector<Vertex> vertices = {
@@ -56,16 +77,57 @@ int main()
     const auto shader = Charis::Shader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
 
 
-    while (Charis::WindowIsOpen()) { RunFrame([&]() {
+    while (Charis::WindowIsOpen()) {
+        RunFrame([&]() {
 
             if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
                 Charis::Utility::CloseWindow();
 
             shader.Draw(triangle);
 
-    }); }
+            });
+    }
 
     Charis::CleanUp();
+}
+
+static void HelloSquare() {
+    Charis::Initialize(800, 600, "Hello Square!");
+
+    const std::vector<ColorVertex> vertices = {
+        { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f } },
+        { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f } },
+        { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f } },
+        { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f } }
+    };
+
+    const std::vector<Charis::TriangleIndices> indices = {
+        { 0, 1, 2 },
+        { 0, 3, 2 }
+    };
+
+    const auto triangle = CreateModelFromStructs(vertices, indices, { 3, 3 });
+
+    const auto shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
+
+    while (Charis::WindowIsOpen()) {
+        RunFrame([&]() {
+
+            if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
+                Charis::Utility::CloseWindow();
+
+            shader.Draw(triangle);
+
+            });
+    }
+
+    Charis::CleanUp();
+}
+
+int main()
+{
+    // HelloTriangle();
+    HelloSquare();
    
     return 0;
 }

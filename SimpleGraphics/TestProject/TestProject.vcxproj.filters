@@ -34,11 +34,5 @@
     <None Include="Shaders\colors.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\light_cube.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\light_cube.vert">
-      <Filter>Shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>
