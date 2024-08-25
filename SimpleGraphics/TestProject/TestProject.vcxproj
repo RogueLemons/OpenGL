@@ -152,8 +152,6 @@
   <ItemGroup>
     <None Include="Shaders\colors.frag" />
     <None Include="Shaders\colors.vert" />
-    <None Include="Shaders\light_cube.frag" />
-    <None Include="Shaders\light_cube.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
