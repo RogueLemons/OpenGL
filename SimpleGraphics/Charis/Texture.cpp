@@ -22,7 +22,7 @@ namespace Charis {
         int width, height, nrChannels;              // load image, create texture and generate mipmaps
         unsigned char* data = stbi_load("images/container.jpg", &width, &height, &nrChannels, 0);
         Helper::RuntimeAssert(data, "Failed to load texture: " + pathToImage);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
         stbi_image_free(data);
 	}
