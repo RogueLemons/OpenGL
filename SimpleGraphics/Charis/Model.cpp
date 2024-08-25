@@ -83,8 +83,10 @@ namespace Charis {
 	}
 
 	Model::Model(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-		: Model(vertexAttributes.data(), vertexAttributes.size(), (const unsigned int*)indexTriangles.data(), 3 * indexTriangles.size(), floatsPerAttributePerVertex)
-	{}
+		: Model(vertexAttributes.data(), vertexAttributes.size(), reinterpret_cast<const unsigned int*>(indexTriangles.data()), 3 * indexTriangles.size(), floatsPerAttributePerVertex)
+	{
+		static_assert(sizeof(TriangleIndices) == 3 * sizeof(float));
+	}
 
 	Model::~Model()
 	{
