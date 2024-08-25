@@ -135,6 +135,7 @@ namespace Charis {
 
     void SimpleShader::SetBool(const std::string& name, bool value) const
     {
+        glUseProgram(m_ID);
         auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, static_cast<int>(value));
@@ -142,6 +143,7 @@ namespace Charis {
 
     void SimpleShader::SetInt(const std::string& name, int value) const
     {
+        glUseProgram(m_ID);
         auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, value);
@@ -149,6 +151,7 @@ namespace Charis {
 
     void SimpleShader::SetFloat(const std::string& name, float value) const
     {
+        glUseProgram(m_ID);
         auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1f(uniLoc, value);
