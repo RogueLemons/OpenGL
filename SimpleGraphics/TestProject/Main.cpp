@@ -36,7 +36,7 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
 {
     unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
     Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), floatsPerVertex * vertices.size(), floatsPerAttributePerVertex);
+    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), static_cast<unsigned int>(floatsPerVertex * vertices.size()), floatsPerAttributePerVertex);
 }
 
 template<class V>
@@ -44,12 +44,12 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
-    auto indexCount = 3 * indices.size();
+    auto indexCount = static_cast<unsigned int>(3 * indices.size());
 
     unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
     Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
     auto vertexArray = reinterpret_cast<const float*>(vertices.data());
-    auto vertexCount = floatsPerVertex * vertices.size();
+    auto vertexCount = static_cast<unsigned int>(floatsPerVertex * vertices.size());
 
     return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
