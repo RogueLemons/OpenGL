@@ -79,16 +79,14 @@ static void HelloTriangle() {
     const auto shader = Charis::Shader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
 
 
-    while (Charis::WindowIsOpen()) {
-        RunFrame([&]() {
+    while (Charis::WindowIsOpen()) { RunFrame([&]() {
 
-            if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
-                Charis::Utility::CloseWindow();
+        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
+            Charis::Utility::CloseWindow();
 
-            shader.Draw(triangle);
+        shader.Draw(triangle);
 
-            });
-    }
+    }); }
 
     Charis::CleanUp();
 }
@@ -115,16 +113,14 @@ static void HelloSquare() {
     const auto texture = Charis::Texture("Images/container2.png", textureBinding);
     shader.SetTexture("tex", textureBinding);
 
-    while (Charis::WindowIsOpen()) {
-        RunFrame([&]() {
+    while (Charis::WindowIsOpen()) { RunFrame([&]() {
 
-            if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
-                Charis::Utility::CloseWindow();
+        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
+            Charis::Utility::CloseWindow();
 
-            shader.Draw(triangle);
+        shader.Draw(triangle);
 
-            });
-    }
+    }); }
 
     Charis::CleanUp();
 }
