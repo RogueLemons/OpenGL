@@ -8,6 +8,7 @@
 #include "Charis/Utility.h"
 #include "Charis/Model.h"
 #include "Charis/Shader.h"
+#include "Charis/Texture.h"
 
 // Libraries
 #include <glm/glm.hpp>
@@ -24,9 +25,10 @@ struct Vertex {
     float z{};
 };
 
-struct ColorVertex {
-    glm::vec3 pos;
+struct VertexAttributes {
+    glm::vec3 ver;
     glm::vec3 rgb;
+    glm::vec2 tex;
 };
 
 template<class V>
@@ -94,21 +96,23 @@ static void HelloTriangle() {
 static void HelloSquare() {
     Charis::Initialize(800, 600, "Hello Square!");
 
-    const std::vector<ColorVertex> vertices = {
-        { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f } },
-        { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f } },
-        { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f } },
-        { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f } }
+    const std::vector<VertexAttributes> vertices = {
+        { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
+        { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
+        { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f }, { 0.0f, 1.0f } }
     };
-
     const std::vector<Charis::TriangleIndices> indices = {
         { 0, 1, 2 },
         { 0, 3, 2 }
     };
 
-    const auto triangle = CreateModelFromStructs(vertices, indices, { 3, 3 });
-
+    const auto triangle = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
     const auto shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
+
+    int textureBinding = 0;
+    const auto texture = Charis::Texture("Images/container2.png", textureBinding);
+    shader.SetTexture("tex", textureBinding);
 
     while (Charis::WindowIsOpen()) {
         RunFrame([&]() {
@@ -127,6 +131,7 @@ static void HelloSquare() {
 int main()
 {
     // HelloTriangle();
+
     HelloSquare();
    
     return 0;
