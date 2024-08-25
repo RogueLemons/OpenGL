@@ -157,4 +157,10 @@ namespace Charis {
         glUniform1f(uniLoc, value);
     }
 
+    void SimpleShader::SetTexture(const std::string& name, unsigned int binding) const
+    {
+        Helper::RuntimeAssert(31 >= binding && binding >= 0, "Texture global state binding index must be in the range [0, 31].");
+        SetInt(name, binding);
+    }
+
 }

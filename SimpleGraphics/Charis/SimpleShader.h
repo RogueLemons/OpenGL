@@ -32,6 +32,7 @@ namespace Charis {
 		void SetBool(const std::string& name, bool value) const;
 		void SetInt(const std::string& name, int value) const;
 		void SetFloat(const std::string& name, float value) const;
+		void SetTexture(const std::string& name, unsigned int binding) const;
 
 	protected:
 		unsigned int m_ID;
