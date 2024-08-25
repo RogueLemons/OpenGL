@@ -97,6 +97,7 @@ static void HelloSquare() {
     Charis::Initialize(800, 600, "Hello Square!");
 
     const std::vector<VertexAttributes> vertices = {
+          // Position             // Color                // Texture coord
         { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
         { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
         { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
