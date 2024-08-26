@@ -7,6 +7,7 @@
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
 #include "Charis/Model.h"
+#include "Charis/SimpleShader.h"
 #include "Charis/Shader.h"
 #include "Charis/Texture.h"
 
@@ -76,7 +77,7 @@ static void HelloTriangle() {
         "{\n"
         "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
         "}\n\0";
-    const auto shader = Charis::Shader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
+    const auto shader = Charis::SimpleShader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
 
 
     while (Charis::WindowIsOpen()) { RunFrame([&]() {
@@ -127,7 +128,7 @@ static void HelloSquare() {
 
 int main()
 {
-    // HelloTriangle();
+    HelloTriangle();
 
     HelloSquare();
    
