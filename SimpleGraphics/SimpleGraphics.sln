@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17D522A7-AAE5-47D7-A105-4014BCEFEA75}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProject", "TestProject\TestProject.vcxproj", "{88EC9DAA-85E6-4F92-AEA3-A8F32C447702}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Charis", "Charis\Charis.vcxproj", "{9D3A12D4-30D0-4A9A-8B14-9DEF0AD795B4}"
@@ -19,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Debug|x64.ActiveCfg = Debug|x64
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Debug|x64.Build.0 = Debug|x64
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Debug|x86.ActiveCfg = Debug|Win32
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Debug|x86.Build.0 = Debug|Win32
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Release|x64.ActiveCfg = Release|x64
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Release|x64.Build.0 = Release|x64
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Release|x86.ActiveCfg = Release|Win32
-		{FEAEDE74-22E6-4EFF-A547-9E988832B4B5}.Release|x86.Build.0 = Release|Win32
 		{88EC9DAA-85E6-4F92-AEA3-A8F32C447702}.Debug|x64.ActiveCfg = Debug|x64
 		{88EC9DAA-85E6-4F92-AEA3-A8F32C447702}.Debug|x64.Build.0 = Debug|x64
 		{88EC9DAA-85E6-4F92-AEA3-A8F32C447702}.Debug|x86.ActiveCfg = Debug|Win32

@@ -1,5 +1,5 @@
 #include "Utility.h"
-#include "Private.hpp"
+#include "Private/CharisGlobals.hpp"
 #include <iostream>
 #include <stdlib.h>
 

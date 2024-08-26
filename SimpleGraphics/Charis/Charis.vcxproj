@@ -71,12 +71,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -120,8 +122,11 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(TargetPath)" "$(SolutionDir)CharisAPI\lib\" /Y /I
-xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\" /Y /I</Command>
+xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -141,13 +146,17 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\" /Y /I</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(TargetPath)" "$(SolutionDir)CharisAPI\lib\" /Y /I
-xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\" /Y /I</Command>
+xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Initialize.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="Private.hpp" />
+    <ClInclude Include="Private\CharisGlobals.hpp" />
+    <ClInclude Include="Private\stb_image.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="Texture.h" />
@@ -156,15 +165,12 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\" /Y /I</Command>
   <ItemGroup>
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Private\glad.c" />
+    <ClCompile Include="Private\stb_image.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utility.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{feaede74-22e6-4eff-a547-9e988832b4b5}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
