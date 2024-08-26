@@ -1,7 +1,7 @@
 #include "Initialize.h"
 #include "Utility.h"
 using namespace Charis::Helper;
-#include "Private.hpp"
+#include "Private/CharisGlobals.hpp"
 using namespace Charis::PrivateGlobal;
 #include <iostream>
 

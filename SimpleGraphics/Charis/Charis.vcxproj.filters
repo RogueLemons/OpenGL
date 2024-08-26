@@ -21,9 +21,6 @@
     <ClInclude Include="Initialize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Private.hpp">
-      <Filter>Private</Filter>
-    </ClInclude>
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -38,6 +35,12 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\CharisGlobals.hpp">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Private\stb_image.h">
+      <Filter>Private</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\glad.c">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\stb_image.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
