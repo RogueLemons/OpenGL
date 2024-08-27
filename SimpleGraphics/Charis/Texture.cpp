@@ -43,10 +43,10 @@ namespace Charis {
 		glDeleteTextures(1, &m_ID);
 	}
 
-    void Texture::BindTo(unsigned int binding)
+    void Texture::BindTo(unsigned int binding) const
     {
         Helper::RuntimeAssert(31 >= binding && binding >= 0, "Texture global state binding index must be in the range [0, 31].");
-        int bindingCode = binding + 0x84C0;
+        int bindingCode = binding + GL_TEXTURE0; // 0x84C0
         glActiveTexture(bindingCode);
         glBindTexture(GL_TEXTURE_2D, m_ID);
     }
