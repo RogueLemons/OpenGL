@@ -2,10 +2,7 @@
 #include <string>
 #include <array>
 
-#define VAL const auto
-#define VAR auto
-#define REF auto&
-#define SCN const auto&
+#define Const const auto
 
 namespace Charis {
 
