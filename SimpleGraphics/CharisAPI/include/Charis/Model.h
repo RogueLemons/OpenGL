@@ -41,8 +41,7 @@ namespace Charis {
 		Model(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		
 		~Model();
-			
-		friend class SimpleShader;
+		
 		friend class Shader;
 
 	private:

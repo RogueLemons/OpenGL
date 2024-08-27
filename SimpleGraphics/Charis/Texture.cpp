@@ -33,12 +33,6 @@ namespace Charis {
         stbi_image_free(data);
 	}
 
-    Texture::Texture(const std::string& pathToImage, unsigned int binding)
-        : Texture(pathToImage)
-    {
-        BindTo(binding);
-    }
-
 	Texture::~Texture()
 	{
 		glDeleteTextures(1, &m_ID);

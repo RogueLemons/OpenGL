@@ -48,7 +48,7 @@ namespace Charis {
 		void SetMat4(const std::string& name, const glm::mat4& mat) const;
 
 
-	protected:
+	private:
 		unsigned int m_ID;
 	};
 
