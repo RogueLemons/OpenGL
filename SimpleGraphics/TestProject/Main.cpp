@@ -106,11 +106,11 @@ static void HelloSquare() {
         { 0, 3, 2 }
     };
 
-    const auto square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
-    const auto shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
-    const auto container = Charis::Texture("Images/container2.png");
+    Const square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
+    Const shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
+    Const container = Charis::Texture("Images/container2.png");
 
-    const int textureBinding = 0;
+    Const textureBinding = 0;
     shader.SetTexture("tex", textureBinding);
     container.BindTo(textureBinding);
 
