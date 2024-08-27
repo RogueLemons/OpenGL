@@ -94,14 +94,14 @@ static void HelloTriangle() {
 static void HelloSquare() {
     Charis::Initialize(800, 600, "Hello Square!");
 
-    const std::vector<VertexAttributes> vertices = {
+    Const vertices = std::vector<VertexAttributes>{
           // Position             // Color                // Texture coord
         { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
         { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
         { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
         { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f }, { 0.0f, 1.0f } }
     };
-    const std::vector<Charis::TriangleIndices> indices = {
+    Const indices = std::vector<Charis::TriangleIndices>{
         { 0, 1, 2 },
         { 0, 3, 2 }
     };
