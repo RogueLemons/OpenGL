@@ -23,7 +23,7 @@ namespace Charis {
 		/// This function binds the texture to one of the 32 global texture states. Shaders access textures from the global states so this is a requirement for shaders.
 		/// </summary>
 		/// <param name="binding">Value must be in [0, 31] range. The global state binding index that should be used to access this texture.</param>
-		void BindTo(unsigned int binding);
+		void BindTo(unsigned int binding) const;
 	private:
 		unsigned int m_ID;
 	};
