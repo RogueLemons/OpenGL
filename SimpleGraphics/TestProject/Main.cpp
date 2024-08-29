@@ -43,23 +43,23 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
 static void HelloSquare() {
     Charis::Initialize(800, 600, "Hello Square!");
 
-    Const vertices = std::vector<VertexAttributes>{
+    const auto vertices = std::vector<VertexAttributes>{
           // Position             // Color                // Texture coord
         { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
         { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
         { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
         { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f }, { 0.0f, 1.0f } }
     };
-    Const indices = std::vector<Charis::TriangleIndices>{
+    const auto indices = std::vector<Charis::TriangleIndices>{
         { 0, 1, 2 },
         { 0, 3, 2 }
     };
 
-    Const square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
-    Const shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
-    Const container = Charis::Texture("Images/container2.png");
+    const auto square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
+    const auto shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
+    const auto container = Charis::Texture("Images/container2.png");
 
-    Const textureBinding = 0;
+    const auto textureBinding = 0;
     shader.SetTexture("tex", textureBinding);
     container.BindTo(textureBinding);
 

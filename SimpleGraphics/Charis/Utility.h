@@ -2,8 +2,6 @@
 #include <string>
 #include <array>
 
-#define Const const auto
-
 namespace Charis {
 
 	namespace Helper {
