@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
+#include <numeric>
 
 // Charis
 #include "Charis/Initialize.h"
@@ -29,7 +30,7 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
     return Charis::Model(reinterpret_cast<const float*>(vertices.data()), static_cast<unsigned int>(floatsPerVertex * vertices.size()), floatsPerAttributePerVertex);
 }
 
-static void HelloTriangle() {
+void HelloTriangle() {
     Charis::Initialize(800, 600, "Hello Triangle!");
 
     const std::vector<Vertex> vertices = {
