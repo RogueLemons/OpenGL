@@ -31,12 +31,6 @@ static void RunFrame(const std::function<void(float dt)>& frameFunction) {
     Charis::EndFrame();
 }
 
-struct VertexAttributes {
-    glm::vec3 ver;
-    glm::vec3 rgb;
-    glm::vec2 tex;
-};
-
 template<class V>
 static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
@@ -107,6 +101,11 @@ static void HelloCameraSquare() {
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
+    struct VertexAttributes {
+        glm::vec3 ver;
+        glm::vec3 rgb;
+        glm::vec2 tex;
+    };
     const auto vertices = std::vector<VertexAttributes>{
           // Position             // Color                // Texture coord
         { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
@@ -153,6 +152,6 @@ int main()
 {
 
     HelloCameraSquare();
-   
+
     return 0;
 }
