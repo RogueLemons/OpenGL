@@ -18,9 +18,16 @@
 constexpr unsigned int SCREEN_WIDTH = 800;
 constexpr unsigned int SCREEN_HEIGHT = 600;
 
-static void RunFrame(const std::function<void()>& frameFunction) {
+// Functions
+static void RunFrame(const std::function<void(float dt)>& frameFunction) {
     Charis::StartFrame();
-    frameFunction();
+
+    static float lastTime = Charis::Utility::GetTime();
+    const auto time = Charis::Utility::GetTime();
+    const auto deltaTime = time - lastTime;
+    lastTime = time;
+
+    frameFunction(deltaTime);
     Charis::EndFrame();
 }
 
@@ -45,68 +52,59 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
     return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
-static float DeltaTime() {
-    static float lastTime = Charis::Utility::GetTime();
+static void ProcessInput(Camera& camera, float deltaTime) {
+    // Helper lambda functions
+    auto ProcessKeyboard = [&](Camera& camera, float deltaTime) -> void {
+        using namespace Charis::Input;
 
-    const auto time = Charis::Utility::GetTime();
-    const auto deltaTime = time - lastTime;
-    lastTime = time;
-    return deltaTime;
-}
+        if (KeyState(Key::W, Pressed))
+            camera.ProcessKeyboard(CameraMovement::FORWARD, deltaTime);
+        if (KeyState(Key::A, Pressed))
+            camera.ProcessKeyboard(CameraMovement::LEFT, deltaTime);
+        if (KeyState(Key::S, Pressed))
+            camera.ProcessKeyboard(CameraMovement::BACKWARD, deltaTime);
+        if (KeyState(Key::D, Pressed))
+            camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
+    };
+    auto ProcessMousePosition = [&](Camera& camera) -> void {
+        // Statics
+        static bool noInput = true;
+        static auto lastCursor = Charis::Input::CursorPosition();
 
-static void ProcessKeyboard(Camera& camera, const float deltaTime) {
-    using namespace Charis::Input;
+        // CursorPosition gives {0, 0} until first time it is moved
+        if (noInput && lastCursor.X == 0.0f && lastCursor.Y == 0.0f) {
+            lastCursor = Charis::Input::CursorPosition();
+            return;
+        }
+        if (noInput && (lastCursor.X != 0.0f || lastCursor.Y != 0.0f)) {
+            noInput = false;
+        }
 
-    if (KeyState(Key::W, Trigger::Pressed))
-        camera.ProcessKeyboard(CameraMovement::FORWARD, deltaTime);
-    if (KeyState(Key::A, Trigger::Pressed))
-        camera.ProcessKeyboard(CameraMovement::LEFT, deltaTime);
-    if (KeyState(Key::S, Trigger::Pressed))
-        camera.ProcessKeyboard(CameraMovement::BACKWARD, deltaTime);
-    if (KeyState(Key::D, Trigger::Pressed))
-        camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
-}
+        // Cursor delta
+        const auto cursor = Charis::Input::CursorPosition();
+        const auto deltaX = cursor.X - lastCursor.X;
+        const auto deltaY = cursor.Y - lastCursor.Y;
+        camera.ProcessMouseMovement(deltaX, -deltaY);
+        lastCursor = cursor;
+    };
+    auto ProcessMouseScroll = [&](Camera & camera) {
+        static auto lastWheel = Charis::Input::MouseWheel();
 
-static void ProcessMousePosition(Camera& camera) {
-    // Statics
-    static bool noInput = true;
-    static auto lastCursor = Charis::Input::CursorPosition();
-
-    // CursorPosition gives {0, 0} until first time it is moved
-    if (noInput && lastCursor.X == 0.0f && lastCursor.Y == 0.0f) {
-        lastCursor = Charis::Input::CursorPosition();
-        return;
-    }
-    if (noInput && (lastCursor.X != 0.0f || lastCursor.Y != 0.0f)) {
-        noInput = false;
-    }
+        const auto wheel = Charis::Input::MouseWheel();
+        const auto deltaWheel = wheel - lastWheel;
+        camera.ProcessMouseScroll(deltaWheel);
+        lastWheel = wheel;
+    };
     
-    // Cursor delta
-    const auto cursor = Charis::Input::CursorPosition();
-    const auto deltaX = cursor.X - lastCursor.X;
-    const auto deltaY = cursor.Y - lastCursor.Y;
-    camera.ProcessMouseMovement(deltaX, -deltaY);
-    lastCursor = cursor;
-}
-
-static void ProcessMouseWheel(Camera& camera) {
-    static auto lastWheel = Charis::Input::MouseWheel();
-
-    const auto wheel = Charis::Input::MouseWheel();
-    const auto deltaWheel = wheel - lastWheel;
-    camera.ProcessMouseScroll(deltaWheel);
-    lastWheel = wheel;
-}
-
-static void ProcessInput(Camera& camera) {
-    const auto deltaTime = DeltaTime();
+    // Process input
     ProcessKeyboard(camera, deltaTime);
     ProcessMousePosition(camera);
-    ProcessMouseWheel(camera);
+    ProcessMouseScroll(camera);
 }
 
 static void HelloCameraSquare() {
     Charis::Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Square!");
+    Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
     const auto vertices = std::vector<VertexAttributes>{
@@ -125,25 +123,24 @@ static void HelloCameraSquare() {
     auto squareToWorld = glm::mat4(1.0f);
     squareToWorld = glm::translate(squareToWorld, { 0.0f, 0.0f, -5.0f });
 
-    const auto textureBinding = 0;
     const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag");
-    shader.SetTexture("tex", textureBinding);
     const auto container = Charis::Texture("Images/container2.png");
+    const auto textureBinding = 0;
+    shader.SetTexture("tex", textureBinding);
     container.BindTo(textureBinding);
 
     auto camera = Camera();
 
-    while (Charis::WindowIsOpen()) { RunFrame([&]() {
+    while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
 
         if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
             Charis::Utility::CloseWindow();
 
-        ProcessInput(camera);
+        ProcessInput(camera, dt);
 
         shader.SetMat4("model", squareToWorld);
         shader.SetMat4("view", camera.GetViewMatrix());
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-        shader.SetMat4("projection", projection);
+        shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f));
 
         shader.Draw(square);
 
