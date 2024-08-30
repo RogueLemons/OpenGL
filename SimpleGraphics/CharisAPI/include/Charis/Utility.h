@@ -2,8 +2,6 @@
 #include <string>
 #include <array>
 
-#define Const const auto
-
 namespace Charis {
 
 	namespace Helper {
@@ -49,10 +47,12 @@ namespace Charis {
 		// Gets the position of the mouse wheel.
 		float MouseWheel();
 
+		// Must match GLFW implementation
 		enum Trigger {
 			Released = 0,
 			Pressed = 1,
 		};
+		// Must match GLFW implementation
 		enum Key {
 			KB_0 = 48,
 			KB_1 = 49,
@@ -102,6 +102,7 @@ namespace Charis {
 			LeftShift = 340,
 			LeftControl = 341
 		};
+		// Must match GLFW implementation
 		enum Mouse {
 			MB_1 = 0,
 			MB_2 = 1,
