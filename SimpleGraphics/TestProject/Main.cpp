@@ -58,6 +58,10 @@ namespace ProcessInputHelperFunctions {
             camera.ProcessKeyboard(CameraMovement::BACKWARD, deltaTime);
         if (KeyState(Key::D, Pressed))
             camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
+        if (KeyState(Key::Space, Pressed))
+            camera.ProcessKeyboard(CameraMovement::UP, deltaTime);
+        if (KeyState(Key::LeftControl, Pressed))
+            camera.ProcessKeyboard(CameraMovement::DOWN, deltaTime);
     }
     static void MousePosition(Camera& camera) {
         // Statics
