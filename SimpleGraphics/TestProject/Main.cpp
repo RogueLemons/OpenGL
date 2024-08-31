@@ -65,16 +65,15 @@ namespace ProcessInputHelperFunctions {
     }
     static void MousePosition(Camera& camera) {
         // Statics
-        static bool noInput = true;
+        static bool cursorIsUnknown = true;
         static auto lastCursor = Charis::Input::CursorPosition();
 
         // CursorPosition gives {0, 0} until first time it is moved
-        if (noInput && lastCursor.X == 0.0f && lastCursor.Y == 0.0f) {
+        if (cursorIsUnknown) {
             lastCursor = Charis::Input::CursorPosition();
-            return;
-        }
-        if (noInput && (lastCursor.X != 0.0f || lastCursor.Y != 0.0f)) {
-            noInput = false;
+
+            if (lastCursor.X == 0.0f && lastCursor.Y == 0.0f) return;
+            else cursorIsUnknown = false;
         }
 
         // Cursor delta
