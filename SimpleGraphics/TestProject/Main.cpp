@@ -52,7 +52,6 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
 namespace ProcessInputHelperFunctions {
     static void Keyboard(Camera& camera, float deltaTime) {
         using namespace Charis::Input;
-
         Camera::Movement direction 
         {
             .forward  = KeyState(Key::W, Pressed),

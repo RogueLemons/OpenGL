@@ -64,25 +64,27 @@ public:
     // processes input received from any keyboard-like input system
     void ProcessMovement(const Movement& moving, float deltaTime)
     {
-        bool noMovement = !(moving.forward || moving.backward || moving.right || moving.left || moving.up || moving.down);
-        if (noMovement)
+
+        auto direction = glm::vec3(0.0f, 0.0f, 0.0f);
+        if (moving.forward)
+            direction += glm::normalize(glm::cross(WorldUp, Right));
+        if (moving.backward)
+            direction -= glm::normalize(glm::cross(WorldUp, Right));
+        if (moving.right)
+            direction += Right;
+        if (moving.left)
+            direction -= Right;
+        if (moving.up)
+            direction += WorldUp;
+        if (moving.down)
+            direction -= WorldUp;
+
+        if (direction == glm::vec3(0.0f, 0.0f, 0.0f))
             return;
 
-        const glm::vec3 forwards = glm::normalize(glm::cross(WorldUp, Right));
         const auto distance = MovementSpeed * deltaTime;
-
-        if (moving.forward)
-            Position += forwards * distance;
-        if (moving.backward)
-            Position -= forwards * distance;
-        if (moving.right)
-            Position += Right * distance;
-        if (moving.left)
-            Position -= Right * distance;
-        if (moving.up)
-            Position += WorldUp * distance;
-        if (moving.down)
-            Position -= WorldUp * distance;
+        Position += glm::normalize(direction) * distance;
+        
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
