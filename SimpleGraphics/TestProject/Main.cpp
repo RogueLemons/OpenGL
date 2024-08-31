@@ -20,9 +20,12 @@ constexpr unsigned int SCREEN_HEIGHT = 600;
 
 // Functions
 static void RunFrame(const std::function<void(float dt)>& frameFunction) {
+    // Static
+    static float lastTime = Charis::Utility::GetTime();
+    
+    // Run frame
     Charis::StartFrame();
 
-    static float lastTime = Charis::Utility::GetTime();
     const auto time = Charis::Utility::GetTime();
     const auto deltaTime = time - lastTime;
     lastTime = time;
