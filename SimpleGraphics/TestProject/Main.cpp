@@ -46,9 +46,8 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
     return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
-static void ProcessInput(Camera& camera, float deltaTime) {
-    // Helper lambda functions
-    auto ProcessKeyboard = [&](Camera& camera, float deltaTime) -> void {
+namespace ProcessInputHelperFunctions {
+    static void Keyboard(Camera& camera, float deltaTime) {
         using namespace Charis::Input;
 
         if (KeyState(Key::W, Pressed))
@@ -59,8 +58,8 @@ static void ProcessInput(Camera& camera, float deltaTime) {
             camera.ProcessKeyboard(CameraMovement::BACKWARD, deltaTime);
         if (KeyState(Key::D, Pressed))
             camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
-    };
-    auto ProcessMousePosition = [&](Camera& camera) -> void {
+    }
+    static void MousePosition(Camera& camera) {
         // Statics
         static bool noInput = true;
         static auto lastCursor = Charis::Input::CursorPosition();
@@ -80,20 +79,22 @@ static void ProcessInput(Camera& camera, float deltaTime) {
         const auto deltaY = cursor.Y - lastCursor.Y;
         camera.ProcessMouseMovement(deltaX, -deltaY);
         lastCursor = cursor;
-    };
-    auto ProcessMouseScroll = [&](Camera & camera) {
+    }
+    static void MouseScroll(Camera& camera) {
         static auto lastWheel = Charis::Input::MouseWheel();
 
         const auto wheel = Charis::Input::MouseWheel();
         const auto deltaWheel = wheel - lastWheel;
         camera.ProcessMouseScroll(deltaWheel);
         lastWheel = wheel;
-    };
-    
-    // Process input
-    ProcessKeyboard(camera, deltaTime);
-    ProcessMousePosition(camera);
-    ProcessMouseScroll(camera);
+    }
+}
+static void ProcessInput(Camera& camera, float deltaTime) {
+    using namespace ProcessInputHelperFunctions;
+
+    Keyboard(camera, deltaTime);
+    MousePosition(camera);
+    MouseScroll(camera);
 }
 
 static void HelloCameraSquare() {
