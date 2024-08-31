@@ -11,9 +11,11 @@ using namespace Charis::PrivateGlobal;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
+    // make sure the viewport matches the new window dimensions; note that width and height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+    // Set global variables
+    Charis::PrivateGlobal::Window::Width = static_cast<unsigned int>(width);
+    Charis::PrivateGlobal::Window::Height = static_cast<unsigned int>(height);
 }
 static void mouse_callback(GLFWwindow* window, double xPosIn, double yPosIn)
 {
@@ -38,6 +40,8 @@ namespace Charis {
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+        PrivateGlobal::Window::Width = width;
+        PrivateGlobal::Window::Height = height;
 		// glfw window creation
 		Window = glfwCreateWindow(width, height, name.data(), NULL, NULL);
 		RuntimeAssert(Window != NULL, "Failed to create GLFW window.");

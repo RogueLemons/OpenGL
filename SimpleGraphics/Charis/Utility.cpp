@@ -35,6 +35,11 @@ namespace Charis {
 			}
 		}
 
+		WindowDimensions GetWindowDimensions()
+		{
+			return { PrivateGlobal::Window::Width, PrivateGlobal::Window::Height };
+		}
+
 		void CloseWindow()
 		{
 			glfwSetWindowShouldClose(PrivateGlobal::Window, true);

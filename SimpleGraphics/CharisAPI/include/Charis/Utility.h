@@ -25,6 +25,10 @@ namespace Charis {
 		// Sets how the cursor should be managed by the window.
 		void SetCursorBehavior(CursorBehavior behavior);
 
+		struct WindowDimensions { unsigned int Width; unsigned int Height; };
+		// Get window dimensions
+		WindowDimensions GetWindowDimensions();
+
 		// Closes the window.
 		void CloseWindow();
 
