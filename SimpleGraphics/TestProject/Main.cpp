@@ -53,18 +53,16 @@ namespace ProcessInputHelperFunctions {
     static void Keyboard(Camera& camera, float deltaTime) {
         using namespace Charis::Input;
 
-        if (KeyState(Key::W, Pressed))
-            camera.ProcessKeyboard(CameraMovement::FORWARD, deltaTime);
-        if (KeyState(Key::A, Pressed))
-            camera.ProcessKeyboard(CameraMovement::LEFT, deltaTime);
-        if (KeyState(Key::S, Pressed))
-            camera.ProcessKeyboard(CameraMovement::BACKWARD, deltaTime);
-        if (KeyState(Key::D, Pressed))
-            camera.ProcessKeyboard(CameraMovement::RIGHT, deltaTime);
-        if (KeyState(Key::Space, Pressed))
-            camera.ProcessKeyboard(CameraMovement::UP, deltaTime);
-        if (KeyState(Key::LeftControl, Pressed))
-            camera.ProcessKeyboard(CameraMovement::DOWN, deltaTime);
+        Camera::Movement direction 
+        {
+            .forward  = KeyState(Key::W, Pressed),
+            .backward = KeyState(Key::S, Pressed),
+            .right    = KeyState(Key::D, Pressed),
+            .left     = KeyState(Key::A, Pressed),
+            .up       = KeyState(Key::Space, Pressed),
+            .down     = KeyState(Key::LeftControl, Pressed)
+        };
+        camera.ProcessMovement(direction, deltaTime);
     }
     static void MousePosition(Camera& camera) {
         // Statics
