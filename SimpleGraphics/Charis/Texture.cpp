@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "Utility.h"
-#include "Private/stb_image.h"
+#include "External/stb_image.h"
 #include <array>
 
 // Libraries

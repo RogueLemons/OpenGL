@@ -16,6 +16,9 @@
     <Filter Include="Private">
       <UniqueIdentifier>{842c9758-ad75-4fcb-81bb-744321c60115}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{39449973-3b88-44bc-a002-eac9fb5e021f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Initialize.h">
@@ -36,8 +39,8 @@
     <ClInclude Include="Private\CharisGlobals.hpp">
       <Filter>Private</Filter>
     </ClInclude>
-    <ClInclude Include="Private\stb_image.h">
-      <Filter>Private</Filter>
+    <ClInclude Include="External\stb_image.h">
+      <Filter>External</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,11 +59,11 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Private\glad.c">
-      <Filter>Private</Filter>
+    <ClCompile Include="External\glad.c">
+      <Filter>External</Filter>
     </ClCompile>
-    <ClCompile Include="Private\stb_image.cpp">
-      <Filter>Private</Filter>
+    <ClCompile Include="External\stb_image.cpp">
+      <Filter>External</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
