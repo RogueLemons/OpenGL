@@ -41,6 +41,10 @@ namespace Charis {
 		ModelComponent(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex);
 		
 		~ModelComponent();
+
+		// TODO: Reintroduce copy constructor and assignment operator
+		ModelComponent(const ModelComponent&) = delete;
+		ModelComponent& operator =(const ModelComponent&) = delete;
 		
 		friend class Shader;
 

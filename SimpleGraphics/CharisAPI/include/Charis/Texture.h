@@ -15,6 +15,10 @@ namespace Charis {
 		Texture(const std::string& pathToImage);
 		~Texture();
 
+		// TODO: Reintroduce copy constructor and assignment operator
+		Texture(const Texture&) = delete;
+		Texture& operator =(const Texture&) = delete;
+
 		/// <summary>
 		/// This function binds the texture to one of the 32 global texture states. Shaders access textures from the global states so this is a requirement for shaders.
 		/// </summary>
