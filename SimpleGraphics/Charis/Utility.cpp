@@ -29,6 +29,12 @@ namespace Charis {
 			case CursorBehavior::Normal:
 				glfwSetInputMode(PrivateGlobal::Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 				break;
+			case CursorBehavior::Lock:
+				glfwSetInputMode(PrivateGlobal::Window, GLFW_CURSOR, GLFW_CURSOR_CAPTURED);
+				break;
+			case CursorBehavior::Hide:
+				glfwSetInputMode(PrivateGlobal::Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+				break;
 			case CursorBehavior::LockAndHide:
 				glfwSetInputMode(PrivateGlobal::Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 				break;

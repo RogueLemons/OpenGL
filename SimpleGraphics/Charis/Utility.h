@@ -19,6 +19,10 @@ namespace Charis {
 		enum CursorBehavior {
 			// Normal and default behavior. Can move freely inside and outside of window.
 			Normal,
+			// Locks the cursor to the window.
+			Lock,
+			// Hides the cursor while inside the window.
+			Hide,
 			// Cursor is locked to window and invisible.
 			LockAndHide
 		};
