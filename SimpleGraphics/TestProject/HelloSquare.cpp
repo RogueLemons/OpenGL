@@ -25,7 +25,7 @@ struct VertexAttributes {
 };
 
 template<class V>
-static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
@@ -36,7 +36,7 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
     auto vertexArray = reinterpret_cast<const float*>(vertices.data());
     auto vertexCount = static_cast<unsigned int>(floatsPerVertex * vertices.size());
 
-    return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
+    return Charis::ModelComponent(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
 void HelloSquare() {
@@ -62,16 +62,14 @@ void HelloSquare() {
     shader.SetTexture("tex", textureBinding);
     container.BindTo(textureBinding);
 
-    while (Charis::WindowIsOpen()) {
-        RunFrame([&]() {
+    while (Charis::WindowIsOpen()) { RunFrame([&]() {
 
             if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
                 Charis::Utility::CloseWindow();
 
             shader.Draw(square);
 
-            });
-    }
+    }); }
 
     Charis::CleanUp();
 }

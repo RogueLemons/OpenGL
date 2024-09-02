@@ -111,7 +111,7 @@ namespace Charis {
 		glDeleteProgram(m_ID);
 	}
 
-    void Shader::Draw(const Model& model) const
+    void Shader::Draw(const ModelComponent& model) const
     {
         glUseProgram(m_ID);
         glBindVertexArray(model.m_VAO);
@@ -126,7 +126,7 @@ namespace Charis {
         }
     }
 
-    void Shader::Draw(const std::vector<Model>& models) const
+    void Shader::Draw(const std::vector<ModelComponent>& models) const
     {
         for (const auto& model : models) {
             Draw(model);

@@ -23,11 +23,11 @@ struct Vertex {
 };
 
 template<class V>
-static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
     Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), static_cast<unsigned int>(floatsPerVertex * vertices.size()), floatsPerAttributePerVertex);
+    return Charis::ModelComponent(reinterpret_cast<const float*>(vertices.data()), static_cast<unsigned int>(floatsPerVertex * vertices.size()), floatsPerAttributePerVertex);
 }
 
 void HelloTriangle() {

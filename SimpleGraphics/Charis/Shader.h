@@ -28,9 +28,9 @@ namespace Charis {
 		~Shader();
 
 		// Uses this shader to draw a model.
-		void Draw(const Model& model) const;
+		void Draw(const ModelComponent& model) const;
 		// Uses this shader to draw a list of models.
-		void Draw(const std::vector<Model>& models) const;
+		void Draw(const std::vector<ModelComponent>& models) const;
 
 		void SetBool(const std::string& name, bool value) const;
 		void SetInt(const std::string& name, int value) const;
