@@ -7,7 +7,7 @@
 // Charis
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
-#include "Charis/Model.h"
+#include "Charis/ModelComponent.h"
 #include "Charis/Shader.h"
 
 static void RunFrame(const std::function<void()>& frameFunction) {
