@@ -20,9 +20,6 @@ namespace Charis {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        // tell stb_image.h to flip loaded texture's on the y-axis, consider moving to Charis initialization
-        stbi_set_flip_vertically_on_load(true);
-
         // load image, create texture and generate mipmaps
         int width, height, nrChannels;
         const int desiredNrChannels = 4;
