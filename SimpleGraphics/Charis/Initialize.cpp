@@ -61,7 +61,8 @@ namespace Charis {
 
     void StartFrame()
     {
-        glClearColor(PrivateGlobal::BackgroundRGB[0], PrivateGlobal::BackgroundRGB[1], PrivateGlobal::BackgroundRGB[2], 1.0f);
+        const auto& RGB = PrivateGlobal::BackgroundRGB;
+        glClearColor(RGB[0], RGB[1], RGB[2], 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
