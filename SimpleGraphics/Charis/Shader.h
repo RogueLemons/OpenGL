@@ -2,6 +2,7 @@
 #include "ModelComponent.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 // Libraries
 #include <glm/glm.hpp>
@@ -27,10 +28,6 @@ namespace Charis {
 		Shader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType = Filepath);
 		~Shader();
 
-		// TODO: Reintroduce copy constructor and assignment operator
-		Shader(const Shader&) = delete;
-		Shader& operator =(const Shader&) = delete;
-
 		// Uses this shader to draw a model.
 		void Draw(const ModelComponent& model) const;
 		// Uses this shader to draw a list of models.
@@ -53,7 +50,10 @@ namespace Charis {
 
 
 	private:
-		unsigned int m_ID;
+		struct ShaderMember {
+			unsigned int ID{};
+		};
+		std::shared_ptr<ShaderMember> m = std::make_shared<ShaderMember>();
 	};
 
 }

@@ -48,14 +48,14 @@ namespace Charis {
 
 		// Set attributes and vertex buffers
 		auto vertInfo = SetAttributesAndVertices(vertexAttributes, numberOfVertexAttributes, floatsPerAttributePerVertex);
-		m_VAO = vertInfo.VAO;
-		m_NumberOfVertices = vertInfo.numberOfVertices;
-		m_VBO = vertInfo.VBO;
+		m->VAO = vertInfo.VAO;
+		m->NumberOfVertices = vertInfo.numberOfVertices;
+		m->VBO = vertInfo.VBO;
 
 		// Set up index/element buffer
-		m_UsingIBO = false;
-		m_NumberOfIndices = 0;
-		m_IBO = -1;
+		m->UsingIBO = false;
+		m->NumberOfIndices = 0;
+		m->IBO = -1;
 	}
 	ModelComponent::ModelComponent(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex) 
 		: ModelComponent(vertexAttributes.data(), vertexAttributes.size(), floatsPerAttributePerVertex)
@@ -69,15 +69,15 @@ namespace Charis {
 
 		// Set attributes and vertex buffer
 		auto vertInfo = SetAttributesAndVertices(vertexAttributes, numberOfVertexAttributes, floatsPerAttributePerVertex);
-		m_VAO = vertInfo.VAO;
-		m_NumberOfVertices = vertInfo.numberOfVertices;
-		m_VBO = vertInfo.VBO;
+		m->VAO = vertInfo.VAO;
+		m->NumberOfVertices = vertInfo.numberOfVertices;
+		m->VBO = vertInfo.VBO;
 
 		// Set up index/element buffer
-		m_UsingIBO = true;
-		m_NumberOfIndices = numberOfIndices;
-		glGenBuffers(1, &m_IBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+		m->UsingIBO = true;
+		m->NumberOfIndices = numberOfIndices;
+		glGenBuffers(1, &m->IBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->IBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * numberOfIndices, indices, GL_STATIC_DRAW);
 
 	}
@@ -90,11 +90,14 @@ namespace Charis {
 
 	ModelComponent::~ModelComponent()
 	{
-		glDeleteVertexArrays(1, &m_VAO);
-		glDeleteBuffers(1, &m_VBO);
+		if (m.use_count() > 1)
+			return;
 
-		if (m_UsingIBO) 
-			glDeleteBuffers(1, &m_IBO);
+		glDeleteVertexArrays(1, &m->VAO);
+		glDeleteBuffers(1, &m->VBO);
+
+		if (m->UsingIBO) 
+			glDeleteBuffers(1, &m->IBO);
 	}
 
 }

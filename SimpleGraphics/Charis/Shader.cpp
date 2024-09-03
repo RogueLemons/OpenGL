@@ -95,11 +95,11 @@ namespace Charis {
         glCompileShader(fragment);
         CheckCompileErrors(fragment, ShaderType::Fragment);
 
-        m_ID = glCreateProgram();
-        glAttachShader(m_ID, vertex);
-        glAttachShader(m_ID, fragment);
-        glLinkProgram(m_ID);
-        CheckCompileErrors(m_ID, ShaderType::Program);
+        m->ID = glCreateProgram();
+        glAttachShader(m->ID, vertex);
+        glAttachShader(m->ID, fragment);
+        glLinkProgram(m->ID);
+        CheckCompileErrors(m->ID, ShaderType::Program);
 
         // 3. delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
@@ -108,21 +108,24 @@ namespace Charis {
 
 	Shader::~Shader()
 	{
-		glDeleteProgram(m_ID);
+        if (m.use_count() > 1)
+            return;
+
+		glDeleteProgram(m->ID);
 	}
 
     void Shader::Draw(const ModelComponent& model) const
     {
-        glUseProgram(m_ID);
-        glBindVertexArray(model.m_VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, model.m_VBO);
+        glUseProgram(m->ID);
+        glBindVertexArray(model.m->VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, model.m->VBO);
 
-        if (model.m_UsingIBO) {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.m_IBO);
-            glDrawElements(GL_TRIANGLES, model.m_NumberOfIndices, GL_UNSIGNED_INT, 0);
+        if (model.m->UsingIBO) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.m->IBO);
+            glDrawElements(GL_TRIANGLES, model.m->NumberOfIndices, GL_UNSIGNED_INT, 0);
         }
         else {
-            glDrawArrays(GL_TRIANGLES, 0, model.m_NumberOfVertices);
+            glDrawArrays(GL_TRIANGLES, 0, model.m->NumberOfVertices);
         }
     }
 
@@ -135,24 +138,24 @@ namespace Charis {
 
     void Shader::SetBool(const std::string& name, bool value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, static_cast<int>(value));
     }
 
     void Shader::SetInt(const std::string& name, int value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1i(uniLoc, value);
     }
 
     void Shader::SetFloat(const std::string& name, float value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform1f(uniLoc, value);
     }
@@ -165,64 +168,64 @@ namespace Charis {
 
     void Shader::SetVec2(const std::string& name, const glm::vec2& value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform2fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec2(const std::string& name, float x, float y) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform2f(uniLoc, x, y);
     }
     void Shader::SetVec3(const std::string& name, const glm::vec3& value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform3fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec3(const std::string& name, float x, float y, float z) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform3f(uniLoc, x, y, z);
     }
     void Shader::SetVec4(const std::string& name, const glm::vec4& value) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform4fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec4(const std::string& name, float x, float y, float z, float w) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniform4f(uniLoc, x, y, z, w);
     }
     void Shader::SetMat2(const std::string& name, const glm::mat2& mat) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniformMatrix2fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
     }
     void Shader::SetMat3(const std::string& name, const glm::mat3& mat) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniformMatrix3fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
     }
     void Shader::SetMat4(const std::string& name, const glm::mat4& mat) const
     {
-        glUseProgram(m_ID);
-        auto uniLoc = glGetUniformLocation(m_ID, name.c_str());
+        glUseProgram(m->ID);
+        auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
         Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
         glUniformMatrix4fv(uniLoc, 1, GL_FALSE, &mat[0][0]);        // or use glm::value_ptr(model)
     }
