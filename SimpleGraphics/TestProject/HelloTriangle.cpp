@@ -23,7 +23,7 @@ struct Vertex {
 };
 
 template<class V>
-static Charis::ModelComponent CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
     Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
@@ -38,7 +38,7 @@ void HelloTriangle() {
         {  0.5f, -0.5f, 0.0f },
         {  0.0f,  0.5f, 0.0f }
     };
-    const auto triangle = CreateModelFromStructs(vertices, { 3 });
+    const auto triangle = CreateModelComponentFromStructs(vertices, { 3 });
 
     const char* vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"

@@ -25,7 +25,7 @@ struct VertexAttributes {
 };
 
 template<class V>
-static Charis::ModelComponent CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
@@ -54,7 +54,7 @@ void HelloSquare() {
         { 0, 3, 2 }
     };
 
-    const auto square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
+    const auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
     const auto shader = Charis::Shader("Shaders/hello_square.vert", "Shaders/hello_square.frag");
     const auto container = Charis::Texture("Images/container2.png");
 

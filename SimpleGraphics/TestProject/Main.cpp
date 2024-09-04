@@ -35,7 +35,7 @@ static void RunFrame(const std::function<void(float dt)>& frameFunction) {
 }
 
 template<class V>
-static Charis::ModelComponent CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
@@ -122,7 +122,7 @@ static void HelloCameraSquare() {
         { 0, 3, 2 }
     };
 
-    const auto square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
+    const auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
     auto squareToWorld = glm::mat4(1.0f);
     squareToWorld = glm::translate(squareToWorld, { 0.0f, 0.0f, -5.0f });
 
