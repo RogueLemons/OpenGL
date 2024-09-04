@@ -52,6 +52,12 @@ static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<
 namespace ProcessInputHelperFunctions {
     static void Keyboard(Camera& camera, float deltaTime) {
         using namespace Charis::Input;
+
+        // Close window
+        if (KeyState(Key::Escape, Trigger::Pressed))
+            Charis::Utility::CloseWindow();
+
+        // Move camera
         Camera::Movement direction 
         {
             .forward  = KeyState(Key::W, Pressed),
@@ -135,9 +141,6 @@ static void HelloCameraSquare() {
     auto camera = Camera();
 
     while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
-
-        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
-            Charis::Utility::CloseWindow();
 
         ProcessInput(camera, dt);
 
