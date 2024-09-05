@@ -13,15 +13,16 @@ namespace Charis {
 	public:
 		enum TextureType {
 			Diffuse = 0,
-			Specular,
-			Weight,
-			Height,
+			Specular = 1,
+			Weight = 2,
+			Height = 3,
 			Null
 		};
 		TextureType Type;
 
 		/// <summary>Constructor for a texture.</summary>
 		/// <param name="pathToImage">File path to image to load into texture.</param>
+		/// <param name="type">Type of texture it is. Null textures require manual handling and will not be automatically added to shaders when drawing model components.</param>
 		Texture(const std::string& pathToImage, TextureType type = Null);
 		~Texture();
 
