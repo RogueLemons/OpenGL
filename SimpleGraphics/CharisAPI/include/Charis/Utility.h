@@ -2,8 +2,6 @@
 #include <string>
 #include <array>
 
-#define Const const auto
-
 namespace Charis {
 
 	namespace Helper {
@@ -21,11 +19,19 @@ namespace Charis {
 		enum CursorBehavior {
 			// Normal and default behavior. Can move freely inside and outside of window.
 			Normal,
+			// Locks the cursor to the window.
+			Lock,
+			// Hides the cursor while inside the window.
+			Hide,
 			// Cursor is locked to window and invisible.
 			LockAndHide
 		};
 		// Sets how the cursor should be managed by the window.
 		void SetCursorBehavior(CursorBehavior behavior);
+
+		struct WindowDimensions { unsigned int Width; unsigned int Height; };
+		// Get window dimensions
+		WindowDimensions GetWindowDimensions();
 
 		// Closes the window.
 		void CloseWindow();
@@ -49,10 +55,12 @@ namespace Charis {
 		// Gets the position of the mouse wheel.
 		float MouseWheel();
 
+		// Must match GLFW implementation
 		enum Trigger {
 			Released = 0,
 			Pressed = 1,
 		};
+		// Must match GLFW implementation
 		enum Key {
 			KB_0 = 48,
 			KB_1 = 49,
@@ -102,6 +110,7 @@ namespace Charis {
 			LeftShift = 340,
 			LeftControl = 341
 		};
+		// Must match GLFW implementation
 		enum Mouse {
 			MB_1 = 0,
 			MB_2 = 1,

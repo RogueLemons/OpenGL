@@ -10,6 +10,11 @@ namespace Charis {
 	namespace PrivateGlobal {
 
 		inline GLFWwindow* Window = nullptr;
+		struct Window {
+			inline static unsigned int Width{};
+			inline static unsigned int Height{};
+		};
+
 		inline std::array<float, 3> BackgroundRGB{};
 
 		struct Mouse {

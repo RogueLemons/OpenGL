@@ -1,7 +1,8 @@
 #pragma once
-#include "Model.h"
+#include "ModelComponent.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 // Libraries
 #include <glm/glm.hpp>
@@ -28,9 +29,9 @@ namespace Charis {
 		~Shader();
 
 		// Uses this shader to draw a model.
-		void Draw(const Model& model) const;
+		void Draw(const ModelComponent& model) const;
 		// Uses this shader to draw a list of models.
-		void Draw(const std::vector<Model>& models) const;
+		void Draw(const std::vector<ModelComponent>& models) const;
 
 		void SetBool(const std::string& name, bool value) const;
 		void SetInt(const std::string& name, int value) const;
@@ -49,7 +50,10 @@ namespace Charis {
 
 
 	private:
-		unsigned int m_ID;
+		struct ShaderMember {
+			unsigned int ID{};
+		};
+		std::shared_ptr<ShaderMember> m = std::make_shared<ShaderMember>();
 	};
 
 }

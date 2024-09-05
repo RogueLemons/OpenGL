@@ -1,3 +1,4 @@
+#include "Camera.hpp"
 #include <iostream>
 #include <vector>
 #include <functional>
@@ -6,41 +7,35 @@
 // Charis
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
-#include "Charis/Model.h"
+#include "Charis/ModelComponent.h"
 #include "Charis/Shader.h"
 #include "Charis/Texture.h"
 
 // Libraries
 #include <glm/glm.hpp>
 
-static void RunFrame(const std::function<void()>& frameFunction) {
+// Settings
+constexpr unsigned int SCREEN_WIDTH = 800;
+constexpr unsigned int SCREEN_HEIGHT = 600;
+
+// Functions
+static void RunFrame(const std::function<void(float dt)>& frameFunction) {
+    // Static
+    static float lastTime = Charis::Utility::GetTime();
+    
+    // Run frame
     Charis::StartFrame();
-    frameFunction();
+
+    const auto time = Charis::Utility::GetTime();
+    const auto deltaTime = time - lastTime;
+    lastTime = time;
+
+    frameFunction(deltaTime);
     Charis::EndFrame();
 }
 
-struct Vertex {
-    float x{};
-    float y{};
-    float z{};
-};
-
-struct VertexAttributes {
-    glm::vec3 ver;
-    glm::vec3 rgb;
-    glm::vec2 tex;
-};
-
 template<class V>
-static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-{
-    unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
-    Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    return Charis::Model(reinterpret_cast<const float*>(vertices.data()), static_cast<unsigned int>(floatsPerVertex * vertices.size()), floatsPerAttributePerVertex);
-}
-
-template<class V>
-static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
@@ -51,73 +46,107 @@ static Charis::Model CreateModelFromStructs(const std::vector<V>& vertices, cons
     auto vertexArray = reinterpret_cast<const float*>(vertices.data());
     auto vertexCount = static_cast<unsigned int>(floatsPerVertex * vertices.size());
 
-    return Charis::Model(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
+    return Charis::ModelComponent(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
-static void HelloTriangle() {
-    Charis::Initialize(800, 600, "Hello Triangle!");
+namespace ProcessInputHelperFunctions {
+    static void Keyboard(Camera& camera, float deltaTime) {
+        using namespace Charis::Input;
 
-    const std::vector<Vertex> vertices = {
-        { -0.5f, -0.5f, 0.0f },
-        {  0.5f, -0.5f, 0.0f },
-        {  0.0f,  0.5f, 0.0f }
-    };
-    const auto triangle = CreateModelFromStructs(vertices, { 3 });
-
-    const char* vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "}\0";
-    const char* fragmentShaderSource = "#version 330 core\n"
-        "layout (location = 0) out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0";
-    const auto shader = Charis::Shader(vertexShaderSource, fragmentShaderSource, Charis::Shader::InCode);
-
-
-    while (Charis::WindowIsOpen()) { RunFrame([&]() {
-
-        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
+        // Close window
+        if (KeyState(Key::Escape, Trigger::Pressed))
             Charis::Utility::CloseWindow();
 
-        shader.Draw(triangle);
+        // Move camera
+        Camera::Movement direction 
+        {
+            .forward  = KeyState(Key::W, Pressed),
+            .backward = KeyState(Key::S, Pressed),
+            .right    = KeyState(Key::D, Pressed),
+            .left     = KeyState(Key::A, Pressed),
+            .up       = KeyState(Key::Space, Pressed),
+            .down     = KeyState(Key::LeftControl, Pressed)
+        };
+        camera.ProcessMovement(direction, deltaTime);
+    }
+    static void MousePosition(Camera& camera) {
+        // Statics
+        static bool cursorIsUnknown = true;
+        static auto lastCursor = Charis::Input::CursorPosition();
 
-    }); }
+        // CursorPosition gives {0, 0} until first time it is moved
+        if (cursorIsUnknown) {
+            lastCursor = Charis::Input::CursorPosition();
 
-    Charis::CleanUp();
+            if (lastCursor.X == 0.0f && lastCursor.Y == 0.0f) return;
+            else cursorIsUnknown = false;
+        }
+
+        // Cursor delta
+        const auto cursor = Charis::Input::CursorPosition();
+        const auto deltaX = cursor.X - lastCursor.X;
+        const auto deltaY = cursor.Y - lastCursor.Y;
+        camera.ProcessMouseMovement(deltaX, -deltaY);
+        lastCursor = cursor;
+    }
+    static void MouseScroll(Camera& camera) {
+        static auto lastWheel = Charis::Input::MouseWheel();
+
+        const auto wheel = Charis::Input::MouseWheel();
+        const auto deltaWheel = wheel - lastWheel;
+        camera.ProcessMouseScroll(deltaWheel);
+        lastWheel = wheel;
+    }
+}
+static void ProcessInput(Camera& camera, float deltaTime) {
+    using namespace ProcessInputHelperFunctions;
+
+    Keyboard(camera, deltaTime);
+    MousePosition(camera);
+    MouseScroll(camera);
 }
 
-static void HelloSquare() {
-    Charis::Initialize(800, 600, "Hello Square!");
+static void HelloCameraSquare() {
+    Charis::Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Square!");
+    Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
+    Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
-    Const vertices = std::vector<VertexAttributes>{
+    struct VertexAttributes {
+        glm::vec3 ver;
+        glm::vec3 rgb;
+        glm::vec2 tex;
+    };
+    const auto vertices = std::vector<VertexAttributes>{
           // Position             // Color                // Texture coord
         { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
         { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
         { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
         { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f }, { 0.0f, 1.0f } }
     };
-    Const indices = std::vector<Charis::TriangleIndices>{
+    const auto indices = std::vector<Charis::TriangleIndices>{
         { 0, 1, 2 },
         { 0, 3, 2 }
     };
 
-    Const square = CreateModelFromStructs(vertices, indices, { 3, 3, 2 });
-    Const shader = Charis::Shader("Shaders/colors.vert", "Shaders/colors.frag");
-    Const container = Charis::Texture("Images/container2.png");
+    const auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
+    auto squareToWorld = glm::mat4(1.0f);
+    squareToWorld = glm::translate(squareToWorld, { 0.0f, 0.0f, -5.0f });
 
-    Const textureBinding = 0;
+    const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag");
+    const auto container = Charis::Texture("Images/container2.png");
+    const auto textureBinding = 0;
     shader.SetTexture("tex", textureBinding);
     container.BindTo(textureBinding);
 
-    while (Charis::WindowIsOpen()) { RunFrame([&]() {
+    auto camera = Camera();
 
-        if (Charis::Input::KeyState(Charis::Input::Escape, Charis::Input::Pressed))
-            Charis::Utility::CloseWindow();
+    while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
+
+        ProcessInput(camera, dt);
+
+        shader.SetMat4("model", squareToWorld);
+        shader.SetMat4("view", camera.GetViewMatrix());
+        shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f));
 
         shader.Draw(square);
 
@@ -128,9 +157,8 @@ static void HelloSquare() {
 
 int main()
 {
-    // HelloTriangle();
 
-    HelloSquare();
-   
+    HelloCameraSquare();
+
     return 0;
 }

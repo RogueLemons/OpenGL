@@ -71,14 +71,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\Libraries\include;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Platform)</TargetName>
-    <LibraryPath>$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\Libraries\include;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Platform)</TargetName>
-    <LibraryPath>$(SolutionDir)Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -153,19 +153,19 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="External\stb_image.h" />
     <ClInclude Include="Initialize.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="Private\CharisGlobals.hpp" />
-    <ClInclude Include="Private\stb_image.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="External\glad.c" />
+    <ClCompile Include="External\stb_image.cpp" />
     <ClCompile Include="Initialize.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Private\glad.c" />
-    <ClCompile Include="Private\stb_image.cpp" />
+    <ClCompile Include="ModelComponent.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utility.cpp" />

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 
 namespace Charis {
 
@@ -21,6 +22,9 @@ namespace Charis {
 		/// <param name="binding">Value must be in [0, 31] range. The global state binding index that should be used to access this texture.</param>
 		void BindTo(unsigned int binding) const;
 	private:
-		unsigned int m_ID;
+		struct TextureMember {
+			unsigned int ID{};
+		};
+		std::shared_ptr<TextureMember> m = std::make_shared<TextureMember>();
 	};
 }

@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "Utility.h"
-#include "Private/stb_image.h"
+#include "External/stb_image.h"
 #include <array>
 
 // Libraries
@@ -10,8 +10,8 @@ namespace Charis {
 
 	Texture::Texture(const std::string& pathToImage)
 	{
-        glGenTextures(1, &m_ID);
-        glBindTexture(GL_TEXTURE_2D, m_ID);
+        glGenTextures(1, &m->ID);
+        glBindTexture(GL_TEXTURE_2D, m->ID);
 
         // set the texture wrapping parameters, (GL_REPEAT is default wrapping method)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -19,9 +19,6 @@ namespace Charis {
         // set texture filtering parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        // tell stb_image.h to flip loaded texture's on the y-axis, consider moving to Charis initialization
-        stbi_set_flip_vertically_on_load(true);
 
         // load image, create texture and generate mipmaps
         int width, height, nrChannels;
@@ -35,7 +32,10 @@ namespace Charis {
 
 	Texture::~Texture()
 	{
-		glDeleteTextures(1, &m_ID);
+        if (m.use_count() > 1)
+            return;
+
+		glDeleteTextures(1, &m->ID);
 	}
 
     void Texture::BindTo(unsigned int binding) const
@@ -43,7 +43,7 @@ namespace Charis {
         Helper::RuntimeAssert(31 >= binding && binding >= 0, "Texture global state binding index must be in the range [0, 31].");
         int bindingCode = binding + GL_TEXTURE0; // 0x84C0
         glActiveTexture(bindingCode);
-        glBindTexture(GL_TEXTURE_2D, m_ID);
+        glBindTexture(GL_TEXTURE_2D, m->ID);
     }
 
 }

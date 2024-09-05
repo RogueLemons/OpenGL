@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <memory>
 
 namespace Charis {
 
@@ -45,13 +46,17 @@ namespace Charis {
 		friend class Shader;
 
 	private:
-		unsigned int m_VAO;
-		unsigned int m_NumberOfVertices;
-		unsigned int m_VBO;
+		struct ModelComponentMember {
+			unsigned int VAO{};
+			unsigned int NumberOfVertices{};
+			unsigned int VBO{};
 		
-		bool m_UsingIBO;
-		unsigned int m_NumberOfIndices;
-		unsigned int m_IBO;
+			bool UsingIBO{};
+			unsigned int NumberOfIndices{};
+			unsigned int IBO{};
+		};
+		std::shared_ptr<ModelComponentMember> m = std::make_shared<ModelComponentMember>();
+
 	};
 
 }
