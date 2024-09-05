@@ -111,6 +111,7 @@ static void HelloCameraSquare() {
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
+    // Square vertices
     struct VertexAttributes {
         glm::vec3 ver;
         glm::vec3 rgb;
@@ -128,18 +129,18 @@ static void HelloCameraSquare() {
         { 0, 3, 2 }
     };
 
-    const auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
+    // Square position
     auto squareToWorld = glm::mat4(1.0f);
     squareToWorld = glm::translate(squareToWorld, { 0.0f, 0.0f, -5.0f });
 
+    // Creating model, texture, shader, and camera
+    auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
+    const auto container = Charis::Texture("Images/container2.png", Charis::Texture::Diffuse);
+    square.Textures.push_back(container);
     const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag");
-    const auto container = Charis::Texture("Images/container2.png");
-    const auto textureBinding = 0;
-    shader.SetTexture("tex", textureBinding);
-    container.BindTo(textureBinding);
-
     auto camera = Camera();
 
+    // Run engine loop
     while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
 
         ProcessInput(camera, dt);
