@@ -11,9 +11,18 @@ namespace Charis {
 	class Texture
 	{
 	public:
+		enum TextureType {
+			Diffuse = 0,
+			Specular,
+			Weight,
+			Height,
+			Null
+		};
+		TextureType Type;
+
 		/// <summary>Constructor for a texture.</summary>
 		/// <param name="pathToImage">File path to image to load into texture.</param>
-		Texture(const std::string& pathToImage);
+		Texture(const std::string& pathToImage, TextureType type = Null);
 		~Texture();
 
 		/// <summary>
@@ -21,6 +30,7 @@ namespace Charis {
 		/// </summary>
 		/// <param name="binding">Value must be in [0, 31] range. The global state binding index that should be used to access this texture.</param>
 		void BindTo(unsigned int binding) const;
+
 	private:
 		struct TextureMember {
 			unsigned int ID{};

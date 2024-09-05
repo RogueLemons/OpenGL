@@ -40,8 +40,10 @@ static void CheckCompileErrors(GLuint shader, ShaderType type)
 
 namespace Charis {
 
-	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType)
+	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType, unsigned int numberOfDrawableTextures)
 	{
+        m->NumberOfDrawableTextures = numberOfDrawableTextures;
+
         // 1. retrieve the vertex/fragment source code
         std::string vertexCode;
         std::string fragmentCode;
@@ -114,25 +116,45 @@ namespace Charis {
 		glDeleteProgram(m->ID);
 	}
 
-    void Shader::Draw(const ModelComponent& model) const
+    void Shader::Draw(const ModelComponent& modelComponent) const
     {
-        glUseProgram(m->ID);
-        glBindVertexArray(model.m->VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, model.m->VBO);
+        // Set textures to shader
+        constexpr auto shaderTextureNames = std::array{ "DiffuseTexture_", "SpecularTexture_", "WeightTexture_", "HeightTexture_" };
+        auto textureCounter = std::array{ 0, 0, 0, 0 };
 
-        if (model.m->UsingIBO) {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.m->IBO);
-            glDrawElements(GL_TRIANGLES, model.m->NumberOfIndices, GL_UNSIGNED_INT, 0);
+        int count = 0;
+        for (const auto& texture : modelComponent.Textures) {
+            auto& typeCount = textureCounter[texture.Type];
+
+            if (typeCount < m->NumberOfDrawableTextures) {
+                typeCount++;
+                const auto shaderUniformName = shaderTextureNames[texture.Type] + std::to_string(typeCount);
+                count++;
+                const int textureBinding = 32 - count;
+
+                texture.BindTo(textureBinding);
+                SetTexture(shaderUniformName, textureBinding);
+            }
+        }
+
+        // Perform Draw Operations
+        glUseProgram(m->ID);
+        glBindVertexArray(modelComponent.m->VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, modelComponent.m->VBO);
+
+        if (modelComponent.m->UsingIBO) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelComponent.m->IBO);
+            glDrawElements(GL_TRIANGLES, modelComponent.m->NumberOfIndices, GL_UNSIGNED_INT, 0);
         }
         else {
-            glDrawArrays(GL_TRIANGLES, 0, model.m->NumberOfVertices);
+            glDrawArrays(GL_TRIANGLES, 0, modelComponent.m->NumberOfVertices);
         }
     }
 
-    void Shader::Draw(const std::vector<ModelComponent>& models) const
+    void Shader::Draw(const std::vector<ModelComponent>& modelComponents) const
     {
-        for (const auto& model : models) {
-            Draw(model);
+        for (const auto& modelComponent : modelComponents) {
+            Draw(modelComponent);
         }
     }
 
