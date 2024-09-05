@@ -8,7 +8,7 @@
 
 namespace Charis {
 
-	Texture::Texture(const std::string& pathToImage)
+	Texture::Texture(const std::string& pathToImage, TextureType type) : Type(type)
 	{
         glGenTextures(1, &m->ID);
         glBindTexture(GL_TEXTURE_2D, m->ID);

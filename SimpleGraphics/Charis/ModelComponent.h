@@ -1,4 +1,5 @@
 #pragma once
+#include "Texture.h"
 #include <vector>
 #include <array>
 #include <memory>
@@ -43,8 +44,10 @@ namespace Charis {
 		
 		~ModelComponent();
 		
-		friend class Shader;
+		// List of textures related to this model component.
+		std::vector<Texture> Textures;
 
+		friend class Shader;
 	private:
 		struct ModelComponentMember {
 			unsigned int VAO{};
