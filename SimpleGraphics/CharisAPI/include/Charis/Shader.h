@@ -1,5 +1,5 @@
 #pragma once
-#include "ModelComponent.h"
+#include "Component.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -37,9 +37,9 @@ namespace Charis {
 		~Shader();
 
 		// Uses this shader to draw a model.
-		void Draw(const ModelComponent& modelComponent) const;
+		void Draw(const Component& modelComponent) const;
 		// Uses this shader to draw a list of models.
-		void Draw(const std::vector<ModelComponent>& modelComponents) const;
+		void Draw(const std::vector<Component>& modelComponents) const;
 
 		void SetBool(const std::string& name, bool value) const;
 		void SetInt(const std::string& name, int value) const;

@@ -7,7 +7,7 @@
 // Charis
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
-#include "Charis/ModelComponent.h"
+#include "Charis/Component.h"
 #include "Charis/Shader.h"
 #include "Charis/Texture.h"
 
@@ -35,7 +35,7 @@ static void RunFrame(const std::function<void(float dt)>& frameFunction) {
 }
 
 template<class V>
-static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+static Charis::Component CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 {
     static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
     auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
@@ -46,7 +46,7 @@ static Charis::ModelComponent CreateModelComponentFromStructs(const std::vector<
     auto vertexArray = reinterpret_cast<const float*>(vertices.data());
     auto vertexCount = static_cast<unsigned int>(floatsPerVertex * vertices.size());
 
-    return Charis::ModelComponent(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
+    return Charis::Component(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
 namespace ProcessInputHelperFunctions {

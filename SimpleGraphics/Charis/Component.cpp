@@ -1,4 +1,4 @@
-#include "ModelComponent.h"
+#include "Component.h"
 #include "Utility.h"
 #include <numeric>
 
@@ -40,7 +40,7 @@ static VertexInfo SetAttributesAndVertices(const float* vertexAttributes, unsign
 
 namespace Charis {
 
-	ModelComponent::ModelComponent(const float* vertexAttributes, unsigned int numberOfVertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+	Component::Component(const float* vertexAttributes, unsigned int numberOfVertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 	{
 		Helper::RuntimeAssert(!floatsPerAttributePerVertex.empty(), "Must provide attribute float sizes.");
 		Helper::RuntimeAssert(numberOfVertexAttributes >= 3, "Must provide at least 3 vertices to model.");
@@ -57,11 +57,11 @@ namespace Charis {
 		m->NumberOfIndices = 0;
 		m->IBO = -1;
 	}
-	ModelComponent::ModelComponent(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex) 
-		: ModelComponent(vertexAttributes.data(), vertexAttributes.size(), floatsPerAttributePerVertex)
+	Component::Component(const std::vector<float>& vertexAttributes, const std::vector<unsigned int>& floatsPerAttributePerVertex) 
+		: Component(vertexAttributes.data(), vertexAttributes.size(), floatsPerAttributePerVertex)
 	{}
 
-	ModelComponent::ModelComponent(const float* vertexAttributes, unsigned int numberOfVertexAttributes, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+	Component::Component(const float* vertexAttributes, unsigned int numberOfVertexAttributes, const unsigned int* indices, unsigned int numberOfIndices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
 	{
 		Helper::RuntimeAssert(!floatsPerAttributePerVertex.empty(), "Must provide attribute float sizes.");
 		Helper::RuntimeAssert(numberOfIndices >= 3, "Must provide at least 3 vertices to model.");
@@ -82,13 +82,13 @@ namespace Charis {
 
 	}
 
-	ModelComponent::ModelComponent(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-		: ModelComponent(vertexAttributes.data(), vertexAttributes.size(), reinterpret_cast<const unsigned int*>(indexTriangles.data()), 3 * indexTriangles.size(), floatsPerAttributePerVertex)
+	Component::Component(const std::vector<float>& vertexAttributes, const std::vector<TriangleIndices>& indexTriangles, const std::vector<unsigned int>& floatsPerAttributePerVertex)
+		: Component(vertexAttributes.data(), vertexAttributes.size(), reinterpret_cast<const unsigned int*>(indexTriangles.data()), 3 * indexTriangles.size(), floatsPerAttributePerVertex)
 	{
 		static_assert(sizeof(TriangleIndices) == 3 * sizeof(float));
 	}
 
-	ModelComponent::~ModelComponent()
+	Component::~Component()
 	{
 		if (m.use_count() > 1)
 			return;
