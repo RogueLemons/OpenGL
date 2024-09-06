@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Model.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -36,10 +37,12 @@ namespace Charis {
 		Shader(const std::string& vertexShader, const std::string& fragmentShader, InputType inputType = Filepath, unsigned int numberOfDrawableTextures = 0);
 		~Shader();
 
-		// Uses this shader to draw a model.
-		void Draw(const Component& modelComponent) const;
-		// Uses this shader to draw a list of models.
-		void Draw(const std::vector<Component>& modelComponents) const;
+		// Uses this shader to draw a model component.
+		void Draw(const Component& component) const;
+		// Uses this shader to draw a list of model components.
+		void Draw(const std::vector<Component>& components) const;
+		// Use this shader to draw a model.
+		void Draw(const Model& model) const;
 
 		void SetBool(const std::string& name, bool value) const;
 		void SetInt(const std::string& name, int value) const;

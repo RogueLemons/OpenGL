@@ -116,14 +116,14 @@ namespace Charis {
 		glDeleteProgram(m->ID);
 	}
 
-    void Shader::Draw(const Component& modelComponent) const
+    void Shader::Draw(const Component& component) const
     {
         // Set textures to shader
         constexpr auto shaderTextureNames = std::array{ "DiffuseTexture_", "SpecularTexture_", "WeightTexture_", "HeightTexture_" };
         auto textureCounter = std::array{ 0, 0, 0, 0 };
 
         int count = 0;
-        for (const auto& texture : modelComponent.Textures) {
+        for (const auto& texture : component.Textures) {
             auto& typeCount = textureCounter[texture.Type];
 
             if (typeCount < m->NumberOfDrawableTextures) {
@@ -139,23 +139,28 @@ namespace Charis {
 
         // Perform Draw Operations
         glUseProgram(m->ID);
-        glBindVertexArray(modelComponent.m->VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, modelComponent.m->VBO);
+        glBindVertexArray(component.m->VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, component.m->VBO);
 
-        if (modelComponent.m->UsingIBO) {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelComponent.m->IBO);
-            glDrawElements(GL_TRIANGLES, modelComponent.m->NumberOfIndices, GL_UNSIGNED_INT, 0);
+        if (component.m->UsingIBO) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, component.m->IBO);
+            glDrawElements(GL_TRIANGLES, component.m->NumberOfIndices, GL_UNSIGNED_INT, 0);
         }
         else {
-            glDrawArrays(GL_TRIANGLES, 0, modelComponent.m->NumberOfVertices);
+            glDrawArrays(GL_TRIANGLES, 0, component.m->NumberOfVertices);
         }
     }
 
-    void Shader::Draw(const std::vector<Component>& modelComponents) const
+    void Shader::Draw(const std::vector<Component>& components) const
     {
-        for (const auto& modelComponent : modelComponents) {
-            Draw(modelComponent);
+        for (const auto& component : components) {
+            Draw(component);
         }
+    }
+
+    void Shader::Draw(const Model& model) const
+    {
+        Draw(model.Components);
     }
 
     void Shader::SetBool(const std::string& name, bool value) const
