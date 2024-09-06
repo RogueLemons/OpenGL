@@ -42,6 +42,9 @@
     <ClInclude Include="External\stb_image.h">
       <Filter>External</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Initialize.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="External\stb_image.cpp">
       <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

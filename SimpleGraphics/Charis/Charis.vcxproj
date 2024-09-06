@@ -156,6 +156,7 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
     <ClInclude Include="External\stb_image.h" />
     <ClInclude Include="Initialize.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Private\CharisGlobals.hpp" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
@@ -166,6 +167,7 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
     <ClCompile Include="External\stb_image.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utility.cpp" />
