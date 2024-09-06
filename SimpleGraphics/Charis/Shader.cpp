@@ -116,7 +116,7 @@ namespace Charis {
 		glDeleteProgram(m->ID);
 	}
 
-    void Shader::Draw(const ModelComponent& modelComponent) const
+    void Shader::Draw(const Component& modelComponent) const
     {
         // Set textures to shader
         constexpr auto shaderTextureNames = std::array{ "DiffuseTexture_", "SpecularTexture_", "WeightTexture_", "HeightTexture_" };
@@ -151,7 +151,7 @@ namespace Charis {
         }
     }
 
-    void Shader::Draw(const std::vector<ModelComponent>& modelComponents) const
+    void Shader::Draw(const std::vector<Component>& modelComponents) const
     {
         for (const auto& modelComponent : modelComponents) {
             Draw(modelComponent);
