@@ -30,7 +30,7 @@ namespace Charis {
 		/// Number of textures, per texture type, that will automatically be bound and used when drawing with this texture. 
 		/// For example, with a limit at 3, the shader is expected to support 3 diffuse textures, 3 specular textures, and so on.
 		/// The naming convention follows {TextureType}Texture_{i}. For example, the 3rd diffuse texture is named DiffuseTexture_3.
-		/// When drawing the texture bindings start at 31 and counts downwards, meaning for a limit at 3 bindings 0 to 19 
+		/// When drawing the texture bindings start at 31 and counts downwards, meaning that for a limit at 3, bindings 0 to 16 
 		/// are safe to use for textures not bound to the model component. A limit at 0 means all texture binding management
 		/// must be manual.
 		/// </param>

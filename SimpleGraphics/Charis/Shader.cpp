@@ -119,7 +119,6 @@ namespace Charis {
     void Shader::Draw(const Component& component) const
     {
         // Set textures to shader
-        constexpr auto shaderTextureNames = std::array{ "DiffuseTexture_", "SpecularTexture_", "WeightTexture_", "HeightTexture_" };
         auto textureCounter = std::array{ 0, 0, 0, 0 };
 
         int count = 0;
@@ -128,7 +127,7 @@ namespace Charis {
 
             if (typeCount < m->NumberOfDrawableTextures) {
                 typeCount++;
-                const auto shaderUniformName = shaderTextureNames[texture.Type] + std::to_string(typeCount);
+                const auto shaderUniformName = Texture::ShaderTextureNames[texture.Type] + std::to_string(typeCount);
                 count++;
                 const int textureBinding = 32 - count;
 
