@@ -159,8 +159,8 @@ namespace {
         std::vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, Texture::Height, mmr);
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
         // 5. ambient maps
-        std::vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, Texture::Ambient, mmr);
-        textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+        std::vector<Texture> ambientMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, Texture::Ambient, mmr);
+        textures.insert(textures.end(), ambientMaps.begin(), ambientMaps.end());
 
         // return a component object created from the extracted mesh data
         return CreateModelComponentFromVertexAttributes(vertices, indices, textures);

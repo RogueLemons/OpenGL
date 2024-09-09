@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <array>
 
 namespace Charis {
 
@@ -14,9 +15,17 @@ namespace Charis {
 		enum TextureType {
 			Diffuse = 0,
 			Specular = 1,
-			Weight = 2,
+			Normal = 2,
 			Height = 3,
+			Ambient = 4,
 			Null
+		};
+		static constexpr std::array<const char*, Null> ShaderTextureNames { 
+			"DiffuseTexture_", 
+			"SpecularTexture_", 
+			"NormalTexture_", 
+			"HeightTexture_", 
+			"AmbientTexture_" 
 		};
 		TextureType Type;
 
