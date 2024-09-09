@@ -7,9 +7,8 @@
 // Charis
 #include "Charis/Initialize.h"
 #include "Charis/Utility.h"
-#include "Charis/Component.h"
 #include "Charis/Shader.h"
-#include "Charis/Texture.h"
+#include "Charis/Model.h"
 
 // Libraries
 #include <glm/glm.hpp>
@@ -32,21 +31,6 @@ static void RunFrame(const std::function<void(float dt)>& frameFunction) {
 
     frameFunction(deltaTime);
     Charis::EndFrame();
-}
-
-template<class V>
-static Charis::Component CreateModelComponentFromStructs(const std::vector<V>& vertices, const std::vector<Charis::TriangleIndices> indices, const std::vector<unsigned int>& floatsPerAttributePerVertex)
-{
-    static_assert(sizeof(Charis::TriangleIndices) == 3 * sizeof(float));
-    auto indexArray = reinterpret_cast<const unsigned int*>(indices.data());
-    auto indexCount = static_cast<unsigned int>(3 * indices.size());
-
-    unsigned int floatsPerVertex = std::reduce(floatsPerAttributePerVertex.begin(), floatsPerAttributePerVertex.end());
-    Charis::Helper::RuntimeAssert(sizeof(V) == sizeof(float) * floatsPerVertex, "Number of floats in simple vertex struct must match number of attribute floats.");
-    auto vertexArray = reinterpret_cast<const float*>(vertices.data());
-    auto vertexCount = static_cast<unsigned int>(floatsPerVertex * vertices.size());
-
-    return Charis::Component(vertexArray, vertexCount, indexArray, indexCount, floatsPerAttributePerVertex);
 }
 
 namespace ProcessInputHelperFunctions {
@@ -111,33 +95,11 @@ static void HelloCameraSquare() {
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
-    // Square vertices
-    struct VertexAttributes {
-        glm::vec3 ver;
-        glm::vec3 rgb;
-        glm::vec2 tex;
-    };
-    const auto vertices = std::vector<VertexAttributes>{
-          // Position             // Color                // Texture coord
-        { { -0.5f, -0.5f, 0.0f }, {  1.0f,  0.0f, 0.0f }, { 0.0f, 0.0f } },
-        { {  0.5f, -0.5f, 0.0f }, {  0.0f,  1.0f, 0.0f }, { 1.0f, 0.0f } },
-        { {  0.5f,  0.5f, 0.0f }, {  0.0f,  0.0f, 1.0f }, { 1.0f, 1.0f } },
-        { { -0.5f,  0.5f, 0.0f }, {  1.0f,  1.0f, 1.0f }, { 0.0f, 1.0f } }
-    };
-    const auto indices = std::vector<Charis::TriangleIndices>{
-        { 0, 1, 2 },
-        { 0, 3, 2 }
-    };
+    const auto backpack = Charis::Model("Models/backpack/backpack.obj");
+    auto backpackToWorld = glm::mat4(1.0f);
+    backpackToWorld = glm::translate(backpackToWorld, { 0.0f, 0.0f, -5.0f });
 
-    // Square position
-    auto squareToWorld = glm::mat4(1.0f);
-    squareToWorld = glm::translate(squareToWorld, { 0.0f, 0.0f, -5.0f });
-
-    // Creating model, texture, shader, and camera
-    auto square = CreateModelComponentFromStructs(vertices, indices, { 3, 3, 2 });
-    const auto container = Charis::Texture("Images/container2.png", Charis::Texture::Diffuse);
-    square.Textures.push_back(container);
-    const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag");
+    const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag", Charis::Shader::Filepath, 1);
     auto camera = Camera();
 
     // Run engine loop
@@ -145,11 +107,11 @@ static void HelloCameraSquare() {
 
         ProcessInput(camera, dt);
 
-        shader.SetMat4("model", squareToWorld);
+        shader.SetMat4("model", backpackToWorld);
         shader.SetMat4("view", camera.GetViewMatrix());
         shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f));
 
-        shader.Draw(square);
+        shader.Draw(backpack);
 
     }); }
 
