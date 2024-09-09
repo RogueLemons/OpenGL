@@ -210,3 +210,5 @@ $RECYCLE.BIN/
 # .vs
 /.vs
 
+# include
+!TestProject/Models/*/*
