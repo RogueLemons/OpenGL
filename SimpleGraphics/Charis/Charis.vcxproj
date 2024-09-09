@@ -125,7 +125,7 @@
 xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +149,7 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
 xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
