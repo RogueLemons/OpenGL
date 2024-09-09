@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <string>
+#include <map>
 
 namespace Charis {
 
@@ -12,6 +13,7 @@ namespace Charis {
 
 		std::vector<Component> Components;
 	private:
+		std::map<std::string, Texture> m_LoadedTextures;
 	};
 
 }
