@@ -92,8 +92,8 @@ static void ProcessInput(Camera& camera, float deltaTime) {
     MouseScroll(camera);
 }
 
-static void HelloCameraSquare() {
-    Charis::Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Square!");
+static void HelloBackpack() {
+    Charis::Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Backpack!");
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
@@ -123,7 +123,7 @@ static void HelloCameraSquare() {
 int main()
 {
 
-    HelloCameraSquare();
+    HelloBackpack();
 
     return 0;
 }
