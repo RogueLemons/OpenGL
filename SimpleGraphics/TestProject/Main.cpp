@@ -16,6 +16,8 @@
 // Settings
 constexpr unsigned int SCREEN_WIDTH = 800;
 constexpr unsigned int SCREEN_HEIGHT = 600;
+constexpr float CUTOFF_NEAR = 0.1f;
+constexpr float CUTOFF_FAR = 100.0f;
 
 // Functions
 static void RunFrame(const std::function<void(float dt)>& frameFunction) {
@@ -109,7 +111,7 @@ static void HelloCameraSquare() {
 
         shader.SetMat4("model", backpackToWorld);
         shader.SetMat4("view", camera.GetViewMatrix());
-        shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f));
+        shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, CUTOFF_NEAR, CUTOFF_FAR));
 
         shader.Draw(backpack);
 
