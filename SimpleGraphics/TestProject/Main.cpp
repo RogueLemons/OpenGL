@@ -14,10 +14,6 @@
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
-// Settings
-constexpr unsigned int SCREEN_WIDTH = 800;
-constexpr unsigned int SCREEN_HEIGHT = 600;
-
 // Functions
 static void RunFrame(const std::function<void(float dt)>& frameFunction) {
     // Static
@@ -92,7 +88,7 @@ static void ProcessInput(Charis::Camera& camera, float deltaTime) {
 }
 
 static void HelloBackpack() {
-    Charis::Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Backpack!");
+    Charis::Initialize(800, 600, "Hello Backpack!");
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
