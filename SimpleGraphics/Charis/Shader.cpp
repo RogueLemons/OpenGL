@@ -166,7 +166,7 @@ namespace Charis {
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform1i(uniLoc, static_cast<int>(value));
     }
 
@@ -174,7 +174,7 @@ namespace Charis {
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform1i(uniLoc, value);
     }
 
@@ -182,7 +182,7 @@ namespace Charis {
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform1f(uniLoc, value);
     }
 
@@ -196,63 +196,63 @@ namespace Charis {
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform2fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec2(const std::string& name, float x, float y) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform2f(uniLoc, x, y);
     }
     void Shader::SetVec3(const std::string& name, const glm::vec3& value) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform3fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec3(const std::string& name, float x, float y, float z) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform3f(uniLoc, x, y, z);
     }
     void Shader::SetVec4(const std::string& name, const glm::vec4& value) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform4fv(uniLoc, 1, &value[0]);
     }
     void Shader::SetVec4(const std::string& name, float x, float y, float z, float w) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniform4f(uniLoc, x, y, z, w);
     }
     void Shader::SetMat2(const std::string& name, const glm::mat2& mat) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniformMatrix2fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
     }
     void Shader::SetMat3(const std::string& name, const glm::mat3& mat) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniformMatrix3fv(uniLoc, 1, GL_FALSE, &mat[0][0]);
     }
     void Shader::SetMat4(const std::string& name, const glm::mat4& mat) const
     {
         glUseProgram(m->ID);
         auto uniLoc = glGetUniformLocation(m->ID, name.c_str());
-        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist.");
+        Helper::RuntimeAssert(uniLoc != -1, "Shader uniform does not exist: " + name);
         glUniformMatrix4fv(uniLoc, 1, GL_FALSE, &mat[0][0]);        // or use glm::value_ptr(model)
     }
 
