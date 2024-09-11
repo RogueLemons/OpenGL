@@ -153,6 +153,7 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="External\stb_image.h" />
     <ClInclude Include="Initialize.h" />
     <ClInclude Include="Component.h" />
@@ -163,6 +164,7 @@ xcopy "$(ProjectDir)*.h" "$(SolutionDir)CharisAPI\include\Charis" /Y /I</Command
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="External\glad.c" />
     <ClCompile Include="External\stb_image.cpp" />
     <ClCompile Include="Initialize.cpp" />

@@ -1,4 +1,3 @@
-#include "Camera.hpp"
 #include <iostream>
 #include <vector>
 #include <functional>
@@ -9,15 +8,15 @@
 #include "Charis/Utility.h"
 #include "Charis/Shader.h"
 #include "Charis/Model.h"
+#include "Charis/Camera.h"
 
 // Libraries
 #include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 // Settings
 constexpr unsigned int SCREEN_WIDTH = 800;
 constexpr unsigned int SCREEN_HEIGHT = 600;
-constexpr float CUTOFF_NEAR = 0.1f;
-constexpr float CUTOFF_FAR = 100.0f;
 
 // Functions
 static void RunFrame(const std::function<void(float dt)>& frameFunction) {
@@ -36,7 +35,7 @@ static void RunFrame(const std::function<void(float dt)>& frameFunction) {
 }
 
 namespace ProcessInputHelperFunctions {
-    static void Keyboard(Camera& camera, float deltaTime) {
+    static void Keyboard(Charis::Camera& camera, float deltaTime) {
         using namespace Charis::Input;
 
         // Close window
@@ -44,7 +43,7 @@ namespace ProcessInputHelperFunctions {
             Charis::Utility::CloseWindow();
 
         // Move camera
-        Camera::Movement direction 
+        Charis::Camera::Movement direction 
         {
             .forward  = KeyState(Key::W, Pressed),
             .backward = KeyState(Key::S, Pressed),
@@ -55,7 +54,7 @@ namespace ProcessInputHelperFunctions {
         };
         camera.ProcessMovement(direction, deltaTime);
     }
-    static void MousePosition(Camera& camera) {
+    static void MousePosition(Charis::Camera& camera) {
         // Statics
         static bool cursorIsUnknown = true;
         static auto lastCursor = Charis::Input::CursorPosition();
@@ -72,19 +71,19 @@ namespace ProcessInputHelperFunctions {
         const auto cursor = Charis::Input::CursorPosition();
         const auto deltaX = cursor.X - lastCursor.X;
         const auto deltaY = cursor.Y - lastCursor.Y;
-        camera.ProcessMouseMovement(deltaX, -deltaY);
+        camera.ProcessDirection(deltaX, -deltaY);
         lastCursor = cursor;
     }
-    static void MouseScroll(Camera& camera) {
+    static void MouseScroll(Charis::Camera& camera) {
         static auto lastWheel = Charis::Input::MouseWheel();
 
         const auto wheel = Charis::Input::MouseWheel();
         const auto deltaWheel = wheel - lastWheel;
-        camera.ProcessMouseScroll(deltaWheel);
+        camera.ProcessZoom(deltaWheel);
         lastWheel = wheel;
     }
 }
-static void ProcessInput(Camera& camera, float deltaTime) {
+static void ProcessInput(Charis::Camera& camera, float deltaTime) {
     using namespace ProcessInputHelperFunctions;
 
     Keyboard(camera, deltaTime);
@@ -102,7 +101,7 @@ static void HelloBackpack() {
     backpackToWorld = glm::translate(backpackToWorld, { 0.0f, 0.0f, -5.0f });
 
     const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag", Charis::Shader::Filepath, 1);
-    auto camera = Camera();
+    auto camera = Charis::Camera();
 
     // Run engine loop
     while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
@@ -110,8 +109,8 @@ static void HelloBackpack() {
         ProcessInput(camera, dt);
 
         shader.SetMat4("model", backpackToWorld);
-        shader.SetMat4("view", camera.GetViewMatrix());
-        shader.SetMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, CUTOFF_NEAR, CUTOFF_FAR));
+        shader.SetMat4("view", camera.ViewMatrix());
+        shader.SetMat4("projection", camera.ProjectionMatrix());
 
         shader.Draw(backpack);
 
