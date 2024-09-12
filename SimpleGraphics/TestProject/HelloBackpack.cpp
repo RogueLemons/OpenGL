@@ -59,12 +59,12 @@ namespace {
             // Move camera
             Charis::Camera::Movement direction
             {
-                .forward = KeyState(Key::W, Pressed),
+                .forward  = KeyState(Key::W, Pressed),
                 .backward = KeyState(Key::S, Pressed),
-                .right = KeyState(Key::D, Pressed),
-                .left = KeyState(Key::A, Pressed),
-                .up = KeyState(Key::Space, Pressed),
-                .down = KeyState(Key::LeftControl, Pressed)
+                .right    = KeyState(Key::D, Pressed),
+                .left     = KeyState(Key::A, Pressed),
+                .up       = KeyState(Key::Space, Pressed),
+                .down     = KeyState(Key::LeftControl, Pressed)
             };
             camera.ProcessMovement(direction, deltaTime);
         }
