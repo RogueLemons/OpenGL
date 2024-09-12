@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HelloBackpack.cpp" />
     <ClCompile Include="HelloSquare.cpp" />
     <ClCompile Include="HelloTriangle.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -149,6 +150,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HelloBackpack.h" />
     <ClInclude Include="HelloSquare.h" />
     <ClInclude Include="HelloTriangle.h" />
   </ItemGroup>
