@@ -84,7 +84,7 @@ namespace {
             const auto cursor = Charis::Input::CursorPosition();
             const auto deltaX = cursor.X - lastCursor.X;
             const auto deltaY = cursor.Y - lastCursor.Y;
-            camera.ProcessDirection(deltaX, -deltaY);
+            camera.ProcessRotation(deltaX, -deltaY);
             lastCursor = cursor;
         }
         static void MouseScroll(Charis::Camera& camera) {

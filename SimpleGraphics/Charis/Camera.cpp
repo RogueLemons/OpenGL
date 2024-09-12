@@ -6,37 +6,39 @@
 
 namespace Charis {
 
-	Camera::Camera(glm::vec3 position, glm::vec3 worldUp, float yaw, float pitch)
+	Camera::Camera(glm::vec3 position, glm::vec3 worldUp, float yaw, float pitch, float fov)
 		: Position(position)
 		, Yaw(yaw)
 		, Pitch(pitch)
 		, Options{}
-		, Front(glm::vec3(0.0f, 0.0f, -1.0f))
-		, Zoom(45.0f)
+		, m_Front(glm::vec3(0.0f, 0.0f, -1.0f))
+		, m_Fov(fov)
 	{
+		ProcessZoom(0.0f);
 		UpdateCameraCoordinateSystem();
 	}
 
-	Camera::Camera(CameraOptions options, glm::vec3 position, float yaw, float pitch) 
+	Camera::Camera(CameraOptions options, glm::vec3 position, float yaw, float pitch, float fov)
 		: Options(options)
 		, Position(position)
 		, Yaw(yaw)
 		, Pitch(pitch)
-		, Front(glm::vec3(0.0f, 0.0f, -1.0f))
-		, Zoom(45.0f)
+		, m_Front(glm::vec3(0.0f, 0.0f, -1.0f))
+		, m_Fov(fov)
 	{
+		ProcessZoom(0.0f);
 		UpdateCameraCoordinateSystem();
 	}
 
 	glm::mat4 Camera::ViewMatrix() const
 	{
-		return glm::lookAt(Position, Position + Front, Up);
+		return glm::lookAt(Position, Position + m_Front, m_Up);
 	}
 
 	glm::mat4 Camera::ProjectionMatrix() const
 	{
 		float aspectRatio = static_cast<float>(Utility::GetWindowDimensions().Width) / static_cast<float>(Utility::GetWindowDimensions().Height);
-		return glm::perspective(glm::radians(Zoom), aspectRatio, Options.CutoffNear, Options.CutoffFar);
+		return glm::perspective(glm::radians(m_Fov), aspectRatio, Options.CutoffNear, Options.CutoffFar);
 	}
 
 	void Camera::ProcessMovement(const Movement& moving, float deltaTime)
@@ -44,13 +46,13 @@ namespace Charis {
 		auto direction = glm::vec3(0.0f, 0.0f, 0.0f);
 
 		if (moving.forward)
-			direction += glm::normalize(glm::cross(Options.WorldUp, Right));
+			direction += glm::normalize(glm::cross(Options.WorldUp, m_Right));
 		if (moving.backward)
-			direction -= glm::normalize(glm::cross(Options.WorldUp, Right));
+			direction -= glm::normalize(glm::cross(Options.WorldUp, m_Right));
 		if (moving.right)
-			direction += Right;
+			direction += m_Right;
 		if (moving.left)
-			direction -= Right;
+			direction -= m_Right;
 		if (moving.up)
 			direction += Options.WorldUp;
 		if (moving.down)
@@ -63,7 +65,7 @@ namespace Charis {
 		Position += glm::normalize(direction) * distance;
 	}
 
-	void Camera::ProcessDirection(float xOffset, float yOffset, bool constrainPitch)
+	void Camera::ProcessRotation(float xOffset, float yOffset, bool constrainPitch)
 	{
 		xOffset *= Options.LookSensitivity;
 		yOffset *= Options.LookSensitivity;
@@ -86,11 +88,11 @@ namespace Charis {
 
 	void Camera::ProcessZoom(float offset)
 	{
-		Zoom -= offset;
-		if (Zoom < 1.0f)
-			Zoom = 1.0f;
-		if (Zoom > 45.0f)
-			Zoom = 45.0f;
+		m_Fov -= offset;
+		if (m_Fov < Options.FovMin)
+			m_Fov = Options.FovMin;
+		if (m_Fov > Options.FovMax)
+			m_Fov = Options.FovMax;
 	}
 
 	void Camera::UpdateCameraCoordinateSystem() {
@@ -99,11 +101,11 @@ namespace Charis {
 		front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		front.y = sin(glm::radians(Pitch));
 		front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-		Front = glm::normalize(front);
+		m_Front = glm::normalize(front);
 
 		// Re-calculate the Right and Up vector
-		Right = glm::normalize(glm::cross(Front, Options.WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-		Up = glm::normalize(glm::cross(Right, Front));
+		m_Right = glm::normalize(glm::cross(m_Front, Options.WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+		m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 	}
 
 }
