@@ -5,12 +5,25 @@
 
 namespace Charis {
 
+	/// <summary>A model is a set of components (or just one) and can be created from model files or components.</summary>
 	class Model
 	{
 	public:
+		/// <summary>
+		/// Constructor for a Model.
+		/// </summary>
+		/// <param name="filepath">Path to model file to be loaded.</param>
 		Model(const std::string& filepath);
+		/// <summary>
+		/// Constructor for a Model.
+		/// </summary>
+		/// <param name="components">A list of components, sharing the same local coordinate system, that together make up a model.</param>
 		Model(const std::vector<Component>& components);
 
+		/// <summary>
+		/// If the model was constructed from a file then this function returns a map, 
+		/// with file names as keys and their textures as values. 
+		/// </summary>
 		const std::map<std::string, Texture>& LoadedTextures() const { return m_LoadedTextures; }
 		std::vector<Component> Components;
 	private:
