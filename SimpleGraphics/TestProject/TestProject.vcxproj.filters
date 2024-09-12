@@ -27,12 +27,18 @@
     <ClCompile Include="HelloSquare.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelloBackpack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelloTriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HelloSquare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloBackpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
