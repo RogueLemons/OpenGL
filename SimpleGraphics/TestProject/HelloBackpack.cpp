@@ -121,14 +121,14 @@ void HelloBackpack() {
     // Run engine loop
     while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
 
-            ProcessInput(camera, dt);
+        ProcessInput(camera, dt);
 
-            shader.SetMat4("view", camera.ViewMatrix());
-            shader.SetMat4("projection", camera.ProjectionMatrix());
+        shader.SetMat4("view", camera.ViewMatrix());
+        shader.SetMat4("projection", camera.ProjectionMatrix());
 
-            backpack.rotation = glm::rotate(backpack.rotation, 0.002f, glm::normalize(glm::vec3{ 0.0f, 1.0f, 0.0f }));
-            backpack.position = glm::translate(backpackStartPosition, glm::vec3(0.0f, 0.5 * glm::cos(Charis::Utility::GetTime() * 2.0f), 0.0f));
-            backpack.DrawWith(shader);
+        backpack.rotation = glm::rotate(backpack.rotation, 0.002f, glm::normalize(glm::vec3{ 0.0f, 1.0f, 0.0f }));
+        backpack.position = glm::translate(backpackStartPosition, glm::vec3(0.0f, 0.5 * glm::cos(Charis::Utility::GetTime() * 2.0f), 0.0f));
+        backpack.DrawWith(shader);
 
     }); }
 
