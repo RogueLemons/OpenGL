@@ -65,8 +65,8 @@ namespace Charis {
 
 	void Camera::ProcessDirection(float xOffset, float yOffset, bool constrainPitch)
 	{
-		xOffset *= Options.MouseSensitivity;
-		yOffset *= Options.MouseSensitivity;
+		xOffset *= Options.LookSensitivity;
+		yOffset *= Options.LookSensitivity;
 
 		Yaw += xOffset;
 		Pitch += yOffset;
