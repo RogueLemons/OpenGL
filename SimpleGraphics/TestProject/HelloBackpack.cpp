@@ -120,8 +120,7 @@ void HelloBackpack() {
     auto camera = Charis::Camera();
 
     // Run engine loop
-    while (Charis::WindowIsOpen()) {
-        RunFrame([&](float dt) {
+    while (Charis::WindowIsOpen()) { RunFrame([&](float dt) {
 
             ProcessInput(camera, dt);
 
@@ -132,8 +131,7 @@ void HelloBackpack() {
             backpack.position = glm::translate(backpackStartPosition, glm::vec3(0.0f, 0.5 * glm::cos(Charis::Utility::GetTime() * 2.0f), 0.0f));
             backpack.DrawWith(shader);
 
-            });
-    }
+    }); }
 
-        Charis::CleanUp();
+    Charis::CleanUp();
 }
