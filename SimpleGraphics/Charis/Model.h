@@ -11,6 +11,9 @@ namespace Charis {
 	public:
 		/// <summary>
 		/// Constructor for a Model.
+		/// A model constructed from a file will contain standardized vertex attributes which shaders must accomodate.
+		/// For vertex shader input attributes, at locations 0-4, the following are expected: 
+		/// vec3 position, vec3 normal, vec2 texture coordinate, vec3 tangent, vec3 bitangent.
 		/// </summary>
 		/// <param name="filepath">Path to model file to be loaded.</param>
 		Model(const std::string& filepath);
@@ -21,7 +24,7 @@ namespace Charis {
 		Model(const std::vector<Component>& components);
 
 		/// <summary>
-		/// If the model was constructed from a file then this function returns a map, 
+		/// If the model was constructed from a file then this function returns a map of loaded textures, 
 		/// with file names as keys and their textures as values. 
 		/// </summary>
 		const std::map<std::string, Texture>& LoadedTextures() const { return m_LoadedTextures; }
