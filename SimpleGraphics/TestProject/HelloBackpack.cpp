@@ -115,7 +115,7 @@ void HelloBackpack() {
     const auto backpackStartPosition = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -5.0f });
     auto backpack = WorldObject(backpackModel, backpackStartPosition, glm::mat4(1.0f), 0.5f);
 
-    const auto shader = Charis::Shader("Shaders/shader.vert", "Shaders/shader.frag", Charis::Shader::Filepath, 1);
+    const auto shader = Charis::Shader("Shaders/hello_backpack.vert", "Shaders/hello_backpack.frag", Charis::Shader::Filepath, 1);
     auto camera = Charis::Camera();
 
     // Run engine loop
