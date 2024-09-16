@@ -15,6 +15,8 @@
 // Functions
 namespace {
 
+    // Holds a REFERENCE to a model, as well as a position, rotation, and scale.
+    // A model should be seen as a blueprint while this is the actual object.
     struct WorldObject {
         WorldObject(const Charis::Model& model, glm::mat4 position = { 1.0f }, glm::mat4 rotation = { 1.0f }, float scale = { 1.0f })
             : model(model), position(position), rotation(rotation), scale(scale)
@@ -32,6 +34,7 @@ namespace {
         }
     };
 
+    // Helper function to clean to make engine loop code easier to read
     void RunFrame(const std::function<void(float dt)>& frameFunction) {
         // Static
         static float lastTime = Charis::Utility::GetTime();
@@ -96,6 +99,7 @@ namespace {
             lastWheel = wheel;
         }
     }
+    // Manages mouse and keyboard input
     void ProcessInput(Charis::Camera& camera, float deltaTime) {
         using namespace ProcessInputHelperFunctions;
 
@@ -112,12 +116,12 @@ void HelloBackpack() {
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
-    // Load backpack model
+    // Load and set up backpack model
     const auto backpackModel = Charis::Model("Models/backpack/backpack.obj");
     const auto backpackStartPosition = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -5.0f });
     auto backpack = WorldObject(backpackModel, backpackStartPosition, glm::mat4(1.0f), 0.5f);
 
-    // Load shaders
+    // Load and set up shaders
     const auto shader = Charis::Shader("Shaders/hello_backpack.vert", "Shaders/hello_backpack.frag", Charis::Shader::Filepath, 1);
     shader.SetVec3("dirLight.direction", { 1.0f, 1.0f, 0.0f });
     const auto whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
