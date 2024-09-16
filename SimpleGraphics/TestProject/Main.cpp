@@ -5,8 +5,8 @@
 
 int main()
 {
-    HelloTriangle();
-    HelloSquare();
+    // HelloTriangle();
+    // HelloSquare();
     HelloBackpack();
 
     return 0;
