@@ -107,15 +107,25 @@ namespace {
 }
 
 void HelloBackpack() {
+    // Set up Charis
     Charis::Initialize(800, 600, "Hello Backpack!");
     Charis::Utility::SetWindowBackground({ 0.4f, 0.4f, 0.5f });
     Charis::Utility::SetCursorBehavior(Charis::Utility::LockAndHide);
 
+    // Load backpack model
     const auto backpackModel = Charis::Model("Models/backpack/backpack.obj");
     const auto backpackStartPosition = glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, -5.0f });
     auto backpack = WorldObject(backpackModel, backpackStartPosition, glm::mat4(1.0f), 0.5f);
 
+    // Load shaders
     const auto shader = Charis::Shader("Shaders/hello_backpack.vert", "Shaders/hello_backpack.frag", Charis::Shader::Filepath, 1);
+    shader.SetVec3("dirLight.direction", { 1.0f, 1.0f, 0.0f });
+    const auto whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
+    shader.SetVec3("dirLight.ambient", 0.4f * whiteLight);
+    shader.SetVec3("dirLight.diffuse", 0.7f * whiteLight);
+    shader.SetVec3("dirLight.specular", 0.7f * whiteLight);
+
+    // Create a camera
     auto camera = Charis::Camera();
 
     // Run engine loop
@@ -126,11 +136,12 @@ void HelloBackpack() {
         shader.SetMat4("view", camera.ViewMatrix());
         shader.SetMat4("projection", camera.ProjectionMatrix());
 
-        backpack.rotation = glm::rotate(backpack.rotation, 0.002f, glm::normalize(glm::vec3{ 0.0f, 1.0f, 0.0f }));
-        backpack.position = glm::translate(backpackStartPosition, glm::vec3(0.0f, 0.5 * glm::cos(Charis::Utility::GetTime() * 2.0f), 0.0f));
+        backpack.rotation = glm::rotate(backpack.rotation, 0.001f, glm::normalize(glm::vec3{ 0.0f, 1.0f, 0.0f }));
+        backpack.position = glm::translate(backpackStartPosition, glm::vec3(0.0f, 0.2 * glm::cos(Charis::Utility::GetTime() * 2.0f), 0.0f));
         backpack.DrawWith(shader);
 
     }); }
 
+    // End background processes before closing
     Charis::CleanUp();
 }
